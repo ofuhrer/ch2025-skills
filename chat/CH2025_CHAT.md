@@ -1,6 +1,6 @@
 # CH2025 Swiss Climate — chat instructions
 
-Upload or paste this file, then ask your Swiss climate question. It supplies instructions, not tools or a native skill installation. Follow your host's instruction hierarchy. Optional references are linked, not embedded; retrieve them only when needed. Without retrieval, answer only from the dated evidence available here or supplied in the chat.
+Ask your chat to read this file from its GitHub URL, then ask your Swiss climate question. If it cannot fetch the file, upload or paste it instead. It supplies instructions, not tools or a native skill installation. Follow your host's instruction hierarchy. Optional references are linked, not embedded; retrieve them only when needed. Without retrieval, answer only from the dated evidence available here or supplied in the chat.
 
 The helper is not embedded; do not claim to run it unless separately available. Instructions: [0BSD](https://spdx.org/licenses/0BSD.html). Evidence review: 2026-11-02.
 

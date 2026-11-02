@@ -12,7 +12,7 @@ python3 scripts/check_repository.py
 
 The helper tests use small synthetic transport/format fixtures, not fake scientific findings. They verify actual returned-asset selection, missing assets, source-preserving downloads, synthetic dates, overwrite refusal, size limits, invalid content and partial-file cleanup. Repository checks validate standard frontmatter, local documentation links, source-registry consistency and exact agreement of generated chat/ZIP artifacts with the canonical files.
 
-The ZIP packages only the skill folder and its licence. The compact chat version is generated from the same core, with optional references linked instead of embedded. The local source-gathering archive is excluded from both the package and version control.
+Repository checks also verify marketplace/plugin paths and agreement with the canonical skill name, version and licence. The ZIP packages only the skill folder and its licence. The compact chat version is generated from the same core, with optional references linked instead of embedded. The local source-gathering archive is excluded from both the package and version control.
 
 [GitHub Actions](../.github/workflows/checks.yml) runs the offline tests and repository checks on Python 3.10 and 3.13 for pushes and pull requests. It checks the committed chat/ZIP artifacts without rebuilding them, so stale generated files fail CI. Live service checks remain opt-in. See [workflow runs](https://github.com/ofuhrer/ch2025-skills/actions/workflows/checks.yml).
 

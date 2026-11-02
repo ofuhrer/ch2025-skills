@@ -16,7 +16,8 @@ def chat_text():
     main = re.sub(r"\(references/([^)]+)\)",
                   r"(https://github.com/ofuhrer/ch2025-skills/blob/main/skills/ch2025/references/\1)", main)
     intro = ("# CH2025 Swiss Climate — chat instructions\n\n"
-             "Upload or paste this file, then ask your Swiss climate question. "
+             "Ask your chat to read this file from its GitHub URL, then ask your Swiss climate question. "
+             "If it cannot fetch the file, upload or paste it instead. "
              "It supplies instructions, not tools or a native skill installation. "
              "Follow your host's instruction hierarchy. Optional references are linked, "
              "not embedded; retrieve them only when needed. Without retrieval, answer only "

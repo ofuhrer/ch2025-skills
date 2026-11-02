@@ -1,0 +1,20 @@
+{
+  "name": "ch2025",
+  "version": "0.3.0",
+  "description": "Swiss climate explanations and CH2025 data workflows grounded in official sources.",
+  "author": {
+    "name": "ofuhrer"
+  },
+  "homepage": "https://github.com/ofuhrer/ch2025-skills",
+  "repository": "https://github.com/ofuhrer/ch2025-skills",
+  "license": "0BSD",
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "CH2025 Swiss Climate",
+    "shortDescription": "Swiss climate answers with official sources",
+    "category": "Productivity",
+    "defaultPrompt": [
+      "Use CH2025 to explain Swiss climate change and cite official evidence."
+    ]
+  }
+}

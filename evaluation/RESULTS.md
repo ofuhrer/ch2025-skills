@@ -58,3 +58,10 @@ Date: **2 November 2026**. This section records fresh executable checks; earlier
 - **Source review:** current official product, dataset and Open Data pages inspected; ECMWF and EUMETSAT comparisons pinned in [the package review](../docs/package-review.md). No new source family was missing from v0.2.0.
 - **Not established:** native ChatGPT/Claude import, automatic skill selection in every host, independent v0.3.0 model adherence, comprehensive scientific correctness, every atlas selection or full-grid processing. Added four citation/unsupported-evidence scenarios for future model trials; these are not recorded as passed.
 - **CI:** workflow example retained. The configured GitHub credential still lacks `workflow` scope; local tests are the execution evidence.
+
+
+## Marketplace and repository-link distribution
+
+Date: **2 November 2026**. Added marketplace/manifest validation to repository checks. An isolated Codex configuration successfully registered the local marketplace, installed `ch2025@ch2025-skills` version 0.3.0 and reported it as installed/enabled. The test used only the public package files and did not change the user's normal plugin configuration. Claude CLI was unavailable, so native Claude installation remains untested.
+
+The user supplied a shared ChatGPT conversation that begins with a repository URL. The visible response says it read the README, chat instructions and SKILL.md; subsequent answers contain official source links. This supports documenting direct repository use as the first chat route. It does not prove every source was retrieved or every resulting statement is correct, and it is not a permanent skill installation.

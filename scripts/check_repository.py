@@ -20,6 +20,17 @@ def main():
     assert len((ROOT / "chat/CH2025_CHAT.md").read_text().split()) <= 1000
     keys = set(re.findall(r"^([a-z-]+):", front, re.M))
     assert keys <= {"name", "description", "license", "compatibility", "metadata", "allowed-tools"}
+    version = re.search(r'^  version:\s*"([^"]+)"$', front, re.M).group(1)
+    manifests = [ROOT / host / "plugin.json" for host in (".claude-plugin", ".codex-plugin")]
+    for manifest in manifests:
+        plugin = json.loads(manifest.read_text())
+        assert (plugin["name"], plugin["version"], plugin["license"]) == (name, version, "0BSD")
+        assert (ROOT / plugin.get("skills", "./skills/") / name).resolve() == SKILL.resolve()
+    marketplace = ROOT / ".claude-plugin/marketplace.json"
+    catalog = json.loads(marketplace.read_text())
+    assert catalog["name"] == "ch2025-skills" and len(catalog["plugins"]) == 1
+    entry = catalog["plugins"][0]
+    assert entry["name"] == name and (ROOT / entry["source"]).resolve() == ROOT.resolve()
     sources = json.loads((SKILL / "references/sources.json").read_text())
     assert len({s["id"] for s in sources}) == len(sources)
     assert all(s["url"].startswith("https://") for s in sources)
@@ -39,7 +50,7 @@ def main():
                 continue
             target = target.split("#")[0]
             assert (path.parent / target).exists(), f"Broken link: {path}: {target}"
-    public = documents + package_files() + [ROOT / "LICENSE"]
+    public = documents + package_files() + manifests + [marketplace, ROOT / "LICENSE"]
     forbidden = ("/Users/", "meteoswiss.atlassian.net", "sources/internal", "service.meteoswiss.ch/git/")
     for path in public:
         if path.suffix in (".md", ".json", ".py", ".yaml"):

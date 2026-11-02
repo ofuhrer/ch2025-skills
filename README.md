@@ -8,12 +8,18 @@ The skill serves both the general public and researchers, consultants and develo
 
 | How you work | Use |
 |---|---|
-| Ordinary ChatGPT, Claude or another chat | [Compact chat instructions](chat/CH2025_CHAT.md): upload the file or paste its contents, then ask a question |
+| Chat with GitHub or web access | Give it [this repository URL](https://github.com/ofuhrer/ch2025-skills) and ask it to use the skill for the conversation |
+| Codex or Claude Code with plugins | Install from this repository’s [plugin marketplace](docs/installation.md#marketplace-installation) |
+| Chat without repository access | Upload [compact chat instructions](chat/CH2025_CHAT.md); paste only if uploads are unavailable |
 | A product supporting custom skills | Download [the skill ZIP](releases/ch2025.zip) and follow that product's import instructions |
-| Codex, Claude Code or another skills-compatible agent | Install the [skill folder](skills/ch2025) as described below |
+| Agent without plugin support | Install the [skill folder](skills/ch2025) as described below |
 | Python workflow | Optional [discovery/data helper](skills/ch2025/scripts/ch2025.py), without API keys or third-party packages |
 
-A file cannot add browsing, code execution or network access that the host does not provide. Without live access, use is limited to dated reference material and official verification links. Chat instructions are not a native skill installation. See [compatibility and installation](docs/installation.md).
+For a chat with repository access, start with:
+
+> Use https://github.com/ofuhrer/ch2025-skills for this conversation. Read skills/ch2025/SKILL.md, follow only the references needed for my question, and cite the official evidence.
+
+No file copying is needed when the chat can retrieve those files. This loads guidance for the conversation; a plugin installation makes it available through the host's skill/plugin system. A file cannot add browsing, code execution or network access that the host does not provide. Without live access, use is limited to dated reference material and official verification links. Chat instructions are not a native skill installation. See [compatibility and installation](docs/installation.md).
 
 ## What you can ask
 
@@ -28,7 +34,26 @@ See [simple examples](examples/README.md), [the skill instructions](skills/ch202
 
 The skill now selects among **all eight atlas families**: maps, altitude bands, station indicators, seasonal/extreme changes, GWL comparisons, emission-scenario/time comparisons, annual cycles and ensemble selection. It also routes less-certain topics such as hail, fog, wind and fire weather through the official phenomena overview. [Which product fits my question?](skills/ch2025/references/products.md) [In-depth source-coverage review](docs/source-review.md).
 
-## Install for an agent
+## Install through a marketplace
+
+Codex:
+
+```sh
+codex plugin marketplace add ofuhrer/ch2025-skills
+codex plugin add ch2025@ch2025-skills
+```
+
+Claude Code:
+
+```text
+/plugin marketplace add ofuhrer/ch2025-skills
+/plugin install ch2025@ch2025-skills
+/reload-plugins
+```
+
+This repository hosts its own marketplace; it is not a listing in OpenAI's or Anthropic's curated directory. See [installation and verification](docs/installation.md). Choose either plugin installation or a standalone skill copy to avoid duplicates.
+
+## Install a standalone skill
 
 ```sh
 git clone https://github.com/ofuhrer/ch2025-skills.git

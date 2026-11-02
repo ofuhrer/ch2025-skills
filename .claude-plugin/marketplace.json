@@ -1,0 +1,13 @@
+{
+  "name": "ch2025-skills",
+  "owner": {
+    "name": "ofuhrer"
+  },
+  "plugins": [
+    {
+      "name": "ch2025",
+      "source": "./",
+      "description": "Swiss climate explanations and CH2025 data workflows grounded in official sources."
+    }
+  ]
+}

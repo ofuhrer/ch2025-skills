@@ -44,3 +44,10 @@ ECMWF use: skills — none applied (upstream files reviewed for comparison); MCP
 The smaller chat file deliberately links optional detail, so it has less offline scientific context. The native ZIP still contains all four references. Neither format guarantees truthful model output; model-level citation/abstention scenarios and native hosted imports need their own trials. Existing independent v0.1.0 trials are historical evidence, not a fresh evaluation of v0.3.0.
 
 At review time, GitHub Actions was supplied as an example because the publishing credential lacked `workflow` scope. The workflow has since been moved to [the active CI configuration](../.github/workflows/checks.yml); see [workflow runs](https://github.com/ofuhrer/ch2025-skills/actions/workflows/checks.yml) for execution results. No credential or account settings were changed by this review.
+
+
+## Distribution follow-up
+
+The original review underweighted two convenient routes. ECMWF also distributes its skills through [Codex and Claude marketplaces](https://github.com/ecmwf/ecmwf-weather-skills#installation), and a chat with repository access can fetch these instructions directly from a URL. CH2025 now includes `.claude-plugin/marketplace.json` plus Claude and Codex plugin manifests pointing to the existing canonical skills folder. The README leads with repository-link use and marketplace commands; upload/copy and standalone-folder installation remain fallbacks. This is a repository-hosted marketplace, not a curated-directory submission.
+
+Codex marketplace registration, installation and discovery were verified in an isolated temporary configuration. Native Claude installation remains untested. A user-supplied shared ChatGPT conversation demonstrated repository-link use without uploading instructions; its visible acknowledgement and sourced follow-up answers establish that usage route, not a complete audit of retrieval traces or scientific correctness. Personal conversation details are not included here.
