@@ -1,0 +1,17 @@
+# Downloaded research material and internal source snapshots stay local by default.
+sources/
+data/
+research/
+RESEARCH.md
+scripts/collect_sources.py
+scripts/inspect_samples.py
+scripts/build_catalogue.py
+evaluation/runs/
+evaluation/authoring-plan.md
+evaluation/source-checks.json
+delivery/
+ch2025-data/
+.cache/
+.playwright-mcp/
+__pycache__/
+*.part

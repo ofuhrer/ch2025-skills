@@ -1,0 +1,238 @@
+[
+  {
+    "id": "meteoswiss-overview-en",
+    "title": "Swiss climate scenarios - MeteoSwiss",
+    "url": "https://www.meteoswiss.admin.ch/climate/climate-change/swiss-climate-scenarios.html",
+    "topics": [
+      "overview",
+      "novice"
+    ],
+    "reviewed": "2026-11-02"
+  },
+  {
+    "id": "meteoswiss-products-en",
+    "title": "Reports, data and graphs of Climate Change Scenarios - MeteoSwiss",
+    "url": "https://www.meteoswiss.admin.ch/climate/climate-change/swiss-climate-scenarios/reports-data-and-graphs-of-climate-change-scenarios.html",
+    "topics": [
+      "reports",
+      "brochure",
+      "multilingual"
+    ],
+    "reviewed": "2026-11-02"
+  },
+  {
+    "id": "scientific-report-landing-en",
+    "title": "Climate CH2025 – Scientific Report - MeteoSwiss",
+    "url": "https://www.meteoswiss.admin.ch/services-and-publications/publications/scientific-publications/de/2025/climate-ch2025-scientific-report.html",
+    "topics": [
+      "science",
+      "methods",
+      "expert"
+    ],
+    "reviewed": "2026-11-02"
+  },
+  {
+    "id": "meteoswiss-datasets-en",
+    "title": "Climate CH2025 datasets - MeteoSwiss",
+    "url": "https://www.meteoswiss.admin.ch/climate/climate-change/swiss-climate-scenarios/reports-data-and-graphs-of-climate-change-scenarios/climate-ch2025-datasets.html",
+    "topics": [
+      "data",
+      "hydrology"
+    ],
+    "reviewed": "2026-11-02"
+  },
+  {
+    "id": "meteoswiss-webatlas-en",
+    "title": "Swiss climate scenarios web atlas  - MeteoSwiss",
+    "url": "https://www.meteoswiss.admin.ch/climate/climate-change/swiss-climate-scenarios/reports-data-and-graphs-of-climate-change-scenarios/swiss-climate-scenarios-web-atlas.html",
+    "topics": [
+      "atlas",
+      "indicators",
+      "graphics"
+    ],
+    "reviewed": "2026-11-02"
+  },
+  {
+    "id": "ogd-ch2025",
+    "title": "Climate scenarios CH2025 | Open Data Documentation",
+    "url": "https://opendatadocs.meteoswiss.ch/c-climate-data/c8-c9-climate-scenarios",
+    "topics": [
+      "data",
+      "stac",
+      "expert"
+    ],
+    "reviewed": "2026-11-02"
+  },
+  {
+    "id": "localized-documentation-v1-1",
+    "title": "CH2025 documentation localized v1.1",
+    "url": "https://www.meteoschweiz.admin.ch/dam/jcr%3Af54fae36-9a40-4e45-8abb-0308d0a68a10/CH2025_documentation_localized_v1.1.pdf",
+    "topics": [
+      "data",
+      "calendar",
+      "limitations"
+    ],
+    "reviewed": "2026-11-02"
+  },
+  {
+    "id": "global-warming-levels-en",
+    "title": "Global warming level (GWL) - MeteoSwiss",
+    "url": "https://www.meteoswiss.admin.ch/weather/weather-and-climate-from-a-to-z/global-warming-level-gwl.html",
+    "topics": [
+      "warming",
+      "gwl",
+      "novice"
+    ],
+    "reviewed": "2026-11-02"
+  },
+  {
+    "id": "topic-rising-temperatures",
+    "title": "Rising temperatures - MeteoSwiss",
+    "url": "https://www.meteoswiss.admin.ch/climate/climate-change/rising-temperatures.html",
+    "topics": [
+      "temperature",
+      "observations"
+    ],
+    "reviewed": "2026-11-02"
+  },
+  {
+    "id": "topic-more-extreme-heat",
+    "title": "More extreme heat - MeteoSwiss",
+    "url": "https://www.meteoswiss.admin.ch/climate/climate-change/more-extreme-heat.html",
+    "topics": [
+      "heat"
+    ],
+    "reviewed": "2026-11-02"
+  },
+  {
+    "id": "urban-heat-en",
+    "title": "Urban heat - MeteoSwiss",
+    "url": "https://www.meteoswiss.admin.ch/climate/climate-change/more-extreme-heat/urban-heat.html",
+    "topics": [
+      "heat",
+      "urban"
+    ],
+    "reviewed": "2026-11-02"
+  },
+  {
+    "id": "topic-drier-summers",
+    "title": "Drier summers - MeteoSwiss",
+    "url": "https://www.meteoswiss.admin.ch/climate/climate-change/drier-summers.html",
+    "topics": [
+      "drought",
+      "dryness"
+    ],
+    "reviewed": "2026-11-02"
+  },
+  {
+    "id": "topic-more-frequent-and-more-intense-heavy-precipitation",
+    "title": "More frequent and more intense heavy precipitation - MeteoSwiss",
+    "url": "https://www.meteoswiss.admin.ch/climate/climate-change/more-frequent-and-more-intense-heavy-precipitation.html",
+    "topics": [
+      "precipitation",
+      "extremes"
+    ],
+    "reviewed": "2026-11-02"
+  },
+  {
+    "id": "topic-less-snow-and-cold",
+    "title": "Less snow and cold - MeteoSwiss",
+    "url": "https://www.meteoswiss.admin.ch/climate/climate-change/less-snow-and-cold.html",
+    "topics": [
+      "snow",
+      "cold"
+    ],
+    "reviewed": "2026-11-02"
+  },
+  {
+    "id": "ch2025-uebersicht-klimaindikatoren-en",
+    "title": "CH2025 Uebersicht Klimaindikatoren en",
+    "url": "https://www.meteoswiss.admin.ch/dam/jcr:50da2b8f-3a0b-4082-a3b9-a26cd9525670/CH2025_Uebersicht_Klimaindikatoren_en.pdf",
+    "topics": [
+      "indicators",
+      "definitions"
+    ],
+    "reviewed": "2026-11-02"
+  },
+  {
+    "id": "current-ch2025_ensemble_subselection_guide_v1.0",
+    "title": "CH2025 ensemble subselection guide v1.0",
+    "url": "https://www.meteoschweiz.admin.ch/dam/jcr:c746625d-da94-4bb0-bd8f-f8260c15f8f1/CH2025_ensemble_subselection_guide_v1.0.pdf",
+    "topics": [
+      "ensemble",
+      "selection"
+    ],
+    "reviewed": "2026-11-02"
+  },
+  {
+    "id": "bafu-adaptation-guidance-de",
+    "title": "Netzwerk Anpassung: Empfehlung zur Verwendung der Klimaszenarien «Klima CH2025»",
+    "url": "https://www.bafu.admin.ch/de/empfehlung-klimaszenarien",
+    "topics": [
+      "adaptation",
+      "planning"
+    ],
+    "reviewed": "2026-11-02"
+  },
+  {
+    "id": "bafu-network-publications",
+    "title": "Netzwerk Anpassung: Neuigkeiten und Publikationen",
+    "url": "https://www.bafu.admin.ch/de/netzwerk-anpassung-neuigkeiten-publikationen",
+    "topics": [
+      "adaptation",
+      "impacts"
+    ],
+    "reviewed": "2026-11-02"
+  },
+  {
+    "id": "ch2025-note-for-estimating-future-changes-in-extreme-precipitation-return-levels-v1",
+    "title": "CH2025 note for estimating future changes in extreme precipitation return levels v1",
+    "url": "https://www.meteoswiss.admin.ch/dam/jcr:e64e8e88-50db-4d57-86a6-bf902ba78566/CH2025_note-for-estimating-future-changes-in-extreme-precipitation-return-levels_v1.pdf",
+    "topics": [
+      "precipitation",
+      "extremes",
+      "planning"
+    ],
+    "reviewed": "2026-11-02"
+  },
+  {
+    "id": "scientific-report",
+    "title": "Climate CH2025 – Scientific Report",
+    "url": "https://doi.org/10.18751/climate/scenarios/ch2025/sr/1.0/",
+    "topics": [
+      "science",
+      "methods"
+    ],
+    "reviewed": "2026-11-02"
+  },
+  {
+    "id": "daily-data",
+    "title": "Climate CH2025 – Daily Datasets",
+    "url": "https://doi.org/10.18751/climate/scenarios/ch2025/data/1.0/",
+    "topics": [
+      "data",
+      "citation"
+    ],
+    "reviewed": "2026-11-02"
+  },
+  {
+    "id": "observed-climate",
+    "title": "MeteoSwiss Climate",
+    "url": "https://www.meteoswiss.admin.ch/climate.html",
+    "topics": [
+      "observations",
+      "current"
+    ],
+    "reviewed": "2026-11-02"
+  },
+  {
+    "id": "climate-open-data",
+    "title": "Climate Open Data",
+    "url": "https://opendatadocs.meteoswiss.ch/c-climate-data",
+    "topics": [
+      "observations",
+      "data"
+    ],
+    "reviewed": "2026-11-02"
+  }
+]
