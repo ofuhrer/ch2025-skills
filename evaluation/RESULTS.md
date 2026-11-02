@@ -1,6 +1,6 @@
 # Validation record
 
-Draft: 0.1.0. Date: 2 November 2026.
+Initial draft: 0.1.0. Date: 2 November 2026. Historical checks below describe that version.
 
 ## Automated checks
 
@@ -29,3 +29,17 @@ The expert trial retrieved `BER`, `tas`, `GWL3.0`, DAILY-LOCAL version 1.0.0: 1,
 The complete eight-scenario rubric remains available for further regression evaluation; not every scenario was executed in these trials. No native installation or independent model execution in Claude/ChatGPT was performed. Ordinary-chat tests simulated absent browsing using the supplied standalone file. Raw national daily grids and advanced scientific calculations were not tested by this package's helper. Source availability and model behaviour can change.
 
 GitHub Actions was not run: the publishing sign-in could not upload workflow files. An optional workflow example is included in the documentation; the local automated checks above were actually executed.
+
+## v0.2.0 source review and rename
+
+Reviewed 2 November 2026. Skill name, folder, invocation examples, UI metadata, test paths and ZIP were renamed to `ch2025`. The repository name is unchanged. See [the in-depth review](../docs/source-review.md).
+
+- Fifteen offline tests passed, including atlas selection preservation/rejection, all-eight-family coverage, station-name metadata and metadata-only grid discovery.
+- Live discovery succeeded for all eight atlas families, a French station figure, station metadata and one matching raw daily-grid asset. No national daily file was downloaded.
+- Published pathway and regional precipitation-extreme examples returned the requested selections and actual product-information/file links.
+- A request for pathway data with single-season/pathway controls was explicitly rejected when the service dropped them. Discovering the combined data table without those controls then succeeded; the narrower result must be selected from actual rows.
+- The registry now contains 46 source entries. Reachability checks returned 200 for 44; the NCCS cantons and linked C2SM launch pages returned 404, confirmed by direct retrieval and flagged in the registry. Neither failed route was used as inspected current scientific evidence.
+- An independent agent using only the revised skill answered a published 2050 precipitation question using matching product information plus the actual summary CSV, without recomputing from daily data. It preserved JJA, SSP2-4.5, Switzerland, 2035–2064, baseline 1991–2020, median −12.5% and range −25.0% to +15.3%. [Product information](https://productinformation.app.meteoswiss.ch/climate-ch2025-periodbars-precip/climate-ch2025-periodbars-precip_en.md).
+- The same trial correctly explained the modeled 5–95 range versus CH2025's roughly two-thirds actual-outcome interpretation, recovering the official explainer's template text rather than claiming that navigation-only extraction supplied evidence.
+
+The extended rubric has 13 scenarios; not all were executed as model trials. Native Claude/ChatGPT installation, audiovisual transcripts and full national daily-grid processing remain outside the completed checks.

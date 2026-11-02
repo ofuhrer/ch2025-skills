@@ -6,8 +6,9 @@ import re
 import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
-SKILL = ROOT / "skills/ch2025-swiss-climate"
+SKILL = ROOT / "skills/ch2025"
 REFERENCES = [("sources.md", "public-sources"), ("science.md", "scientific-interpretation"),
+              ("products.md", "product-selection"),
               ("data.md", "data-access"), ("answering.md", "answer-patterns")]
 
 
@@ -28,6 +29,9 @@ def chat_text():
     pieces = [intro, main]
     for filename, anchor in REFERENCES:
         text = (SKILL / "references" / filename).read_text()
+        for target, target_anchor in REFERENCES:
+            text = text.replace(f"({target})", f"(#{target_anchor})")
+            text = text.replace(f"(references/{target})", f"(#{target_anchor})")
         text = re.sub(r"^# .*\n", "", text, count=1).lstrip()
         pieces += [f'\n\n<a id="{anchor}"></a>\n\n## {anchor.replace("-", " ").title()}\n\n', text]
     return "".join(pieces).rstrip() + "\n"
@@ -40,13 +44,13 @@ def package_files():
 
 def build(check=False):
     chat = ROOT / "chat/CH2025_CHAT.md"
-    archive = ROOT / "releases/ch2025-swiss-climate.zip"
+    archive = ROOT / "releases/ch2025.zip"
     expected = chat_text()
     if check:
         assert chat.read_text() == expected, "Chat instructions are stale; rebuild"
         with zipfile.ZipFile(archive) as z:
-            wanted = {"ch2025-swiss-climate/" + str(p.relative_to(SKILL)): p.read_bytes() for p in package_files()}
-            wanted["ch2025-swiss-climate/LICENSE"] = (ROOT / "LICENSE").read_bytes()
+            wanted = {"ch2025/" + str(p.relative_to(SKILL)): p.read_bytes() for p in package_files()}
+            wanted["ch2025/LICENSE"] = (ROOT / "LICENSE").read_bytes()
             assert set(z.namelist()) == set(wanted), "Unexpected or missing ZIP members"
             for name, content in wanted.items():
                 assert z.read(name) == content, f"Stale ZIP member: {name}"
@@ -56,7 +60,7 @@ def build(check=False):
     archive.parent.mkdir(exist_ok=True)
     with zipfile.ZipFile(archive, "w", compression=zipfile.ZIP_DEFLATED) as z:
         for path in package_files() + [ROOT / "LICENSE"]:
-            name = "ch2025-swiss-climate/" + ("LICENSE" if path == ROOT / "LICENSE" else str(path.relative_to(SKILL)))
+            name = "ch2025/" + ("LICENSE" if path == ROOT / "LICENSE" else str(path.relative_to(SKILL)))
             info = zipfile.ZipInfo(name, date_time=(2026, 11, 2, 0, 0, 0))
             info.compress_type = zipfile.ZIP_DEFLATED
             info.external_attr = 0o644 << 16

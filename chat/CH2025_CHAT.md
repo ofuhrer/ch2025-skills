@@ -6,7 +6,7 @@ The optional helper is in the [GitHub repository](https://github.com/ofuhrer/ch2
 
 Generated from the canonical skill and references. Evidence review: 2026-11-02.
 
-# CH2025 Swiss Climate
+# CH2025
 
 Help people understand and use authoritative information about Switzerland's climate. Use **Climate CH2025** as the primary assessment of Swiss climate change and future scenarios, with supporting official MeteoSwiss, NCCS and Federal Office for the Environment (FOEN/BAFU/OFEV/UFAM) sources for observations, services and adaptation guidance. Attribute authority to those sources; do not present this skill or its generated answers as an official publication or endorsement.
 
@@ -22,30 +22,32 @@ Choose a route in [references/sources.md](#public-sources):
 
 | Request | Start with |
 |---|---|
-| Understand changes, causes or uncertainty | Official topic page, brochure or scientific report |
-| Find a map, figure or published indicator | CH2025 web atlas and its product information |
+| Understand changes, causes or uncertainty | Official topic page, brochure or scientific report; phenomena overview for topics beyond the main messages |
+| Find a map, figure, local/altitude indicator or a time/pathway comparison | Select the matching atlas family using [references/products.md](#product-selection); read its product information |
 | Obtain model input or inspect a dataset | Current dataset documentation and production STAC catalogue |
 | Understand historical/current observed climate | MeteoSwiss observations, climate normals or current climate reporting |
 | Choose scenarios for adaptation or ask about impacts | CH2025 hazard evidence plus the relevant official FOEN/NCCS guidance |
 | Compare methods, generations or ensembles | Scientific report, current methods/user guide and matching product metadata |
 
-Use the host's available browsing, retrieval and file tools; no particular agent, connector, account or programming library is required. If a page is an empty rendered shell, it has not supplied evidence: try its official PDF, a rendered browser or another official page. For questions outside these sources' scope, explain the gap and locate the appropriate official source rather than attributing an unsupported answer to CH2025.
+Prefer an existing published answer or aggregated product to downloading daily inputs and recomputing it. The four main messages are an introduction, not the limit of CH2025's coverage. For hail, wind, fog, radiation, humidity, compound extremes or fire weather, use the phenomena overview to find the relevant report sections and level of scientific understanding. For a canton, check the source generation: an older CH2018 fact sheet is not a CH2025 estimate.
+
+Use the host's available browsing, retrieval and file tools; no particular agent, connector, account or programming library is required. If extraction returns only navigation, it has not supplied evidence: try a parser that includes the page's HTML template/shadow-root text, its official PDF, a rendered browser or another official page. Verify the recovered title/body. For questions outside these sources' scope, explain the gap and locate the appropriate official source rather than attributing an unsupported answer to CH2025.
 
 Fetch current sources for “latest”, “today”, availability, corrections, new versions and current observations. The review date above is a snapshot, not a freshness guarantee. Prefer a current official landing page to a guessed download URL. If browsing is unavailable, use only the documented, dated information actually available in this skill or user-provided public material; identify that limitation and do not claim live verification.
 
 ## 3. Match interpretation and processing to the product
 
-Read [references/science.md](#scientific-interpretation) for scientific interpretation, [references/data.md](#data-access) for retrieval/processing, and [references/answering.md](#answer-patterns) for answer and attribution examples. Load only what the request needs.
+Read [references/science.md](#scientific-interpretation) for scientific interpretation, [references/products.md](#product-selection) for product choice, [references/data.md](#data-access) for retrieval/processing, and [references/answering.md](#answer-patterns) for answer and attribution examples. Load only what the request needs.
 
 Keep these distinctions in every workflow:
 
 - CH2025's reference period is **1991–2020**; its pre-industrial temperature reference is **1871–1900**. State the baseline for changes. A GWL is global warming, not the same Swiss warming and not a unique future year.
 - Daily GWL datasets contain **synthetic years 1–30 on a 365-day calendar**. Their reference files are model series, not the observed weather sequence. Do not join GWL blocks into a transient projection or align synthetic dates with real events.
 - Localized 1 km data are statistically downscaled from regional simulations at about 12 km. They are not all convection-permitting simulations. Check variable, station, GWL and model availability rather than assuming a complete rectangular ensemble.
-- Preserve models, units and missing values. Compute indicators within each model before ensemble summaries; quantify the relevant uncertainty. Do not treat a percentile as a physically coherent model trajectory or a calibrated probability without evidence.
+- Preserve models, units and missing values. Compute indicators within each model before ensemble summaries. CH2025 interprets the commonly shown 5th–95th percentile model range as a roughly two-thirds/"likely" range, not 90% real-world probability (report Section 2.11); retain product-specific qualifications. A percentile is not a physically coherent model trajectory.
 - For rare/sub-daily extremes, use the specialized published evidence/guidance. For impact modelling, check dependencies and data suitability. Do not turn a national signal into a precise unsupported local or impact estimate.
 
-For a download, choose the smallest useful product/subset and inspect actual returned metadata. For a derived result, retain the source/version, selections, method, units, baseline, missing-data treatment and uncertainty. Save a provenance record alongside exported data or figures. Use the user's existing project tools where suitable. The optional Python helper in [references/data.md](#data-access) discovers or downloads one station asset without third-party dependencies; it is not required for ordinary chat.
+For a download, choose the smallest useful product/subset and inspect actual returned metadata. For a derived result, retain the source/version, selections, method, units, baseline, missing-data treatment and uncertainty. Save a provenance record alongside exported data or figures. Use the user's existing project tools where suitable. The optional Python helper in [references/data.md](#data-access) discovers atlas products, grid assets and station metadata, or downloads one daily station asset without third-party dependencies; it is not required for ordinary chat.
 
 ## 4. Attribute every answer to publicly accessible evidence
 
@@ -77,7 +79,9 @@ Use [MeteoSwiss Swiss climate scenarios](https://www.meteoswiss.admin.ch/climate
 - [Less snow and cold](https://www.meteoswiss.admin.ch/climate/climate-change/less-snow-and-cold.html)
 - [Understanding climate scenarios](https://www.meteoswiss.admin.ch/climate/climate-change/swiss-climate-scenarios/understanding-climate-change-scenarios.html) and [global warming levels](https://www.meteoswiss.admin.ch/weather/weather-and-climate-from-a-to-z/global-warming-level-gwl.html)
 
-The [reports, data and graphics page](https://www.meteoswiss.admin.ch/climate/climate-change/swiss-climate-scenarios/reports-data-and-graphs-of-climate-change-scenarios.html) links brochures in German, French, Italian and English. Explain in the user's language; prefer a matching official language version when available without silently changing the meaning of technical terms or quotations.
+The [reports, data and graphics page](https://www.meteoswiss.admin.ch/climate/climate-change/swiss-climate-scenarios/reports-data-and-graphs-of-climate-change-scenarios.html) links the brochure/language versions, introductory video, atlas, report, daily data, phenomena overview, launch recording and previous generations. Use [the product-selection guide](#product-selection) to choose the medium and specific atlas family. Explain in the user's language; prefer a matching official language version when available without silently changing the meaning of technical terms or quotations.
+
+For topics beyond the main messages, the [three-page overview of past and future changes](https://www.meteoswiss.admin.ch/dam/jcr:d21a2534-89d2-4b8f-96df-4fdf826cd380/CH2025_Overview-of-past-and-future-changes.pdf) efficiently identifies observed/projected evidence, process expectations, level of scientific understanding and report sections, including wind/storms, hail, fog, sunshine and fire weather. It is a routing aid with explicit uncertainty, not permission to quantify every phenomenon.
 
 ## Scientific assessment and methods
 
@@ -107,7 +111,7 @@ The dataset documentation and web-atlas page identify **CC BY 4.0** for their da
 
 ## Observations, current climate and adaptation
 
-CH2025 provides an assessment, not a continuously updated observational feed. For current trends, recent extremes, climate normals or historical measured series, find the relevant current product through [MeteoSwiss Climate](https://www.meteoswiss.admin.ch/climate.html) or [official climate Open Data documentation](https://opendatadocs.meteoswiss.ch/c-climate-data). Match variable, temporal aggregation, station/grid, homogeneity, version and reference period. Do not substitute CH2025's model reference series for observations.
+CH2025 provides an assessment, not a continuously updated observational feed. For current trends, recent extremes, climate normals or historical measured series, use [Climate Monitor](https://www.meteoswiss.admin.ch/climate/the-climate-of-switzerland/climate-monitor.html), [records and extremes](https://www.meteoswiss.admin.ch/climate/the-climate-of-switzerland/records-and-extremes.html), or [observed climate indices](https://www.meteoswiss.admin.ch/climate/foundations-of-climate-analysis-data-and-methods/climate-indices.html). For underlying data use [C1 homogeneous station series](https://opendatadocs.meteoswiss.ch/c-climate-data/c1-climate-stations_homogeneous), [C3 spatial analyses](https://opendatadocs.meteoswiss.ch/c-climate-data/c3-ground-based-climate-data), [C6 station normals](https://opendatadocs.meteoswiss.ch/c-climate-data/c6-climate-normals), or [C7 gridded normals](https://opendatadocs.meteoswiss.ch/c-climate-data/c7-spatial-climate-normals). Match variable, temporal aggregation, station/grid, homogeneity, version and reference period. Do not substitute CH2025's model reference series for observations. [Climate-data catalogue](https://opendatadocs.meteoswiss.ch/c-climate-data).
 
 For adaptation and climate impacts, start with the [FOEN recommendation on scenario use](https://www.bafu.admin.ch/de/empfehlung-klimaszenarien) and [adaptation network publications](https://www.bafu.admin.ch/de/netzwerk-anpassung-neuigkeiten-publikationen). The 2026 recommendation supports the 3-degree world for medium/long-term planning; it is guidance and explicitly does not prescribe a binding scenario for every actor. Check the current recommendation and the user's planning context before applying it.
 
@@ -140,7 +144,7 @@ The documented ensemble comprises 54 underlying simulations across RCP2.6/4.5/8.
 
 Preserve the selected region system. The five biogeographic regions (Jura, Swiss Plateau, Pre-Alps, Alps, south side of the Alps) differ from raw-model regions CHNE/CHW/CHS/CHAW/CHAE and from the larger WWCE framework region. Hydrological Switzerland additionally covers upstream catchments outside political Switzerland. A station or urban measurement location is not interchangeable with an entire municipality. [Report, Section 2.4/Figure 2.4](https://doi.org/10.18751/climate/scenarios/ch2025/sr/1.0/).
 
-Many products show the 50th percentile/median and 5th/95th percentile estimates. Explain what distribution the product summarizes. Ensemble spread is not automatically a calibrated real-world probability interval; emissions, timing, internal variability and model/method uncertainty play different roles. GWL conditioning reduces some sources of uncertainty without eliminating uncertainty about regional responses or timing. [Report, Section 2.11](https://doi.org/10.18751/climate/scenarios/ch2025/sr/1.0/).
+Many products show the 50th percentile/median and 5th/95th percentile estimates. These span 90% of the modeled distribution, **not a 90% probability interval for the actual outcome**. CH2025 explicitly interprets this range as about **66% / two-thirds probability ("likely")**, allowing for structural/model-method uncertainties outside the modeled spread; departures are stated in the report. Explain this as the assessment's interpretation, not as an independently calibrated frequency guarantee. GWL conditioning reduces some sources of uncertainty without eliminating uncertainty about regional responses or timing. [Report, Section 2.11](https://doi.org/10.18751/climate/scenarios/ch2025/sr/1.0/); [official interpretation guide](https://www.meteoswiss.admin.ch/climate/climate-change/swiss-climate-scenarios/understanding-climate-change-scenarios.html).
 
 Prefer the full ensemble. If resources require fewer members, use the documented selection for the user's GWL, region and application. The 2026 guide has seven cases: temperature; precipitation; both; drought; heatwaves; heavy precipitation; snow-scarce winter. A selected lower/middle/upper model is application-dependent, not a universally best model. [Ensemble-selection guide, Sections 1–3](https://www.meteoschweiz.admin.ch/dam/jcr:c746625d-da94-4bb0-bd8f-f8260c15f8f1/CH2025_ensemble_subselection_guide_v1.0.pdf).
 
@@ -149,6 +153,60 @@ Prefer the full ensemble. If resources require fewer members, use the documented
 Changes in mean precipitation, dry spells and heavy precipitation are distinct quantities. Seasonal drying and intensifying heavy rainfall can coexist. Use exact indicator definitions and seasons. Future loss or risk additionally depends on exposure, vulnerability and adaptation; CH2025 alone does not supply an individual's flood probability, crop yield or property loss. [Report, Chapters 3–4](https://doi.org/10.18751/climate/scenarios/ch2025/sr/1.0/).
 
 For rare/sub-daily precipitation extremes, consult the dedicated Chapter 4 evidence and [official heavy-precipitation guidance](https://www.meteoswiss.admin.ch/climate/climate-change/more-frequent-and-more-intense-heavy-precipitation.html). Its practical scaling note uses a regional temperature increment relative to an appropriate observational baseline. Preserve accumulation duration, return period, spatial context and stated assumptions. Do not use the GWL number itself as that temperature increment or present a simplified scaling as an exact local design result.
+
+For already-published 1-, 3- and 5-day precipitation return-level **change signals**, the atlas's Seasonal changes family provides a direct route, including 5–100-year return-period indicators. Its raw EURO-CORDEX changes are different from absolute local return levels and from sub-daily convection-permitting evidence. Choose the requested quantity first; do not force all extremes questions into a daily-data calculation or the simplified scaling note. [Seasonal changes product information](https://productinformation.app.meteoswiss.ch/climate-ch2025-barplotperiod-heavyprecip/climate-ch2025-barplotperiod-heavyprecip_en.md).
+
+The assessment also addresses wind/storms, hail, fog/low stratus, sunshine/radiation, humidity and compound events. Start with the [overview of past and future changes](https://www.meteoswiss.admin.ch/dam/jcr:d21a2534-89d2-4b8f-96df-4fdf826cd380/CH2025_Overview-of-past-and-future-changes.pdf): separate physical expectations, observed evidence, projections and level of scientific understanding, then follow its report-section pointers. Lack of a robust signal does not establish no change, and physical plausibility does not establish a quantified projection. Do not transfer the confidence of mean-temperature findings to every phenomenon.
+
+
+<a id="product-selection"></a>
+
+## Product Selection
+
+Reviewed 2 November 2026 against the [official product overview](https://www.meteoswiss.admin.ch/climate/climate-change/swiss-climate-scenarios/reports-data-and-graphs-of-climate-change-scenarios.html), [web-atlas catalogue](https://www.meteoswiss.admin.ch/climate/climate-change/swiss-climate-scenarios/reports-data-and-graphs-of-climate-change-scenarios/swiss-climate-scenarios-web-atlas.html), live display configurations and the product information linked by each display. Availability and controls may change. The structured index is `products.json`; the optional helper's `products`/`atlas` commands expose it and current options.
+
+## Match the medium and evidence to the task
+
+| Need | Preferred source | Avoid |
+|---|---|---|
+| First introduction, public explanation or something printable | Topic pages and the brochure in the user's language; official introductory video for audiovisual learning | Starting with the full report or making a novice choose model chains |
+| A statement about a less familiar phenomenon, evidence strength or uncertainty | Three-page overview of past/future phenomena, followed by its scientific-report section | Extending one of the four headline messages to every phenomenon |
+| A published numerical value, plot or indicator | Matching atlas family, actual data and product information | Recomputing an existing result from daily data without need |
+| Detailed methods, process explanations and limitations | Scientific report and current specialist guides | Treating a video, generic homepage or small contents PDF as the full evidence |
+| Reproducible daily input for impact modelling | DAILY-LOCAL/DAILY-GRIDDED, metadata and current documentation | Confusing model reference data or aggregated atlas tables with observations/daily forcing |
+| Talks, the launch discussion or teaching material | Official launch recording and explanatory videos | Citing an uninspected recording or a time-dependent 2025 statement as current information |
+| Historical comparison or a cantonal fact sheet | Official previous-generation/NCCS pages, checking the scenario generation and baseline | Relabelling CH2018 figures as CH2025 |
+
+The official overview links the [brochure](https://www.meteoswiss.admin.ch/services-and-publications/publications/scientific-publications/de/2025/climate-ch2025-brochure.html), [introductory video](https://www.youtube.com/watch?v=F9CRvvrWuKc), [phenomena overview](https://www.meteoswiss.admin.ch/dam/jcr:d21a2534-89d2-4b8f-96df-4fdf826cd380/CH2025_Overview-of-past-and-future-changes.pdf), and [C2SM launch recording](https://c2sm.ethz.ch/events/klima-ch2025-launch-event-de/rueckblick.html). Offer these when their medium helps. Scientific claims still need inspectable supporting text/data or an actually inspected recording with a time marker.
+
+The linked C2SM launch page returned 404 during this review, so the recording was not inspected. Use the official overview to rediscover a current destination and report the availability limitation rather than claiming to have watched it.
+
+## All eight atlas families
+
+The links below are the official entry points. Each application provides its own product-information text and supported figure/data downloads. Verify the returned selection, not just what was requested.
+
+| Family / helper key | Use when the question is about | Important distinctions |
+|---|---|---|
+| [Maps](https://www.meteoswiss.admin.ch/services-and-publications/applications/ext/climate-ch2025-maps.html) / `maps` | A spatial pattern, gridded indicator, local map or observations versus GWL | Choose observation/future product, absolute value/change, season and estimate. Data mode can supply an aggregate NetCDF field; it is not raw daily forcing. A 1 km map does not establish independently resolved 1 km physics. |
+| [Altitude levels](https://www.meteoswiss.admin.ch/services-and-publications/applications/ext/climate-ch2025-altitude-levels.html) / `altitude` | How heat, snow or another available indicator varies with elevation in a region | Regionally averaged altitude-band information, not a precise site/piste prediction. Inspect the indicator's supported periods and bands. |
+| [Indicators at stations](https://www.meteoswiss.admin.ch/services-and-publications/applications/ext/climate-ch2025-columns.html) / `stations` | Station or urban indicators, heating/cooling demand, growing season, heatwave characteristics or fire weather | Broader indicator set than maps: e.g. EFWD, GSL/GDD, HWC/MHWL and heat-warning days. These are climate indicators, not actual wildfire incidence, crop yield, energy consumption or mortality. Data mode can provide all stations. |
+| [Seasonal changes](https://www.meteoswiss.admin.ch/services-and-publications/applications/ext/climate-ch2025-barplotperiod.html) / `seasonal` | Regional seasonal change, temperature extremes, wet-day frequency/intensity, or heavy-precipitation return-level change | Based on raw EURO-CORDEX output; changes relative to 1991–2020 rather than absolute corrected local values. Includes 1/3/5-day precipitation return levels with 5/10/20/50/100-year return periods. Uses model regions rather than the five biogeographic regions. |
+| [Changes by global warming levels](https://www.meteoswiss.admin.ch/services-and-publications/applications/ext/climate-ch2025-gwlbars.html) / `warming` | Regional temperature, precipitation or zero-degree-line changes across degree-worlds | Compare GWL states without inventing a unique date. Check the chosen reference period and the product's unit. |
+| [Changes by emission scenario](https://www.meteoswiss.admin.ch/services-and-publications/applications/ext/climate-ch2025-periodbars.html) / `pathways` | Temperature/precipitation around 2040, 2050 or 2060, or differences between SSP pathways | Published calendar-time summaries exist: 2040 = 2025–2054; 2050 = 2035–2064; 2060 = 2045–2074. These are 30-year means, not single-year weather. Reviewed pathways: SSP1-2.6, SSP2-4.5, SSP5-8.5. An exact 2041–2070 forcing request is not satisfied by silently renaming the 2050 period or a GWL series. |
+| [Climate charts](https://www.meteoswiss.admin.ch/services-and-publications/applications/ext/climate-ch2025-climatenormals.html) / `annual-cycle` | The typical temperature/precipitation course through the year at a station | Climatological annual cycle with reference/GWL comparisons; not the same as the Seasonal changes panel or a daily sequence of weather. |
+| [Ensemble sub-selection](https://www.meteoswiss.admin.ch/services-and-publications/applications/ext/climate-ch2025-ensemble-subselection.html) / `ensemble` | Representative members for a specified impact application, region and GWL | Contains five distinct products: CCS boxplots, CCS by GWL, selected-model tables by case, selected-model tables by region, and model rankings. Use the tables to identify actual members; use diagnostics/rankings to understand selection. The boxplot alone is not the complete workflow. |
+
+For exact controls, use each display's product-information link and live options. For example, [Seasonal changes help](https://productinformation.app.meteoswiss.ch/climate-ch2025-barplotperiod-heavyprecip/climate-ch2025-barplotperiod-heavyprecip_en.md), [time/pathway help](https://productinformation.app.meteoswiss.ch/climate-ch2025-periodbars-temperature/climate-ch2025-periodbars-temperature_en.md) and [ensemble boxplot help](https://productinformation.app.meteoswiss.ch/climate-ch2025-ensemble-subselection-ccs-boxplot/climate-ch2025-ensemble-subselection-ccs-boxplot_en.md) explain different constructions. Product information can contain older wording: check current options and authoritative report/guide when they differ, and disclose unresolved discrepancies.
+
+One quantitative convention matters when comparing climate charts with a calculation: the [climate-chart help](https://productinformation.app.meteoswiss.ch/climate-ch2025-climatenormals-temperature/climate-ch2025-climatenormals-temperature_en.md) specifies precipitation in mm/month as mm/day × 30 for each month. Do not silently compare that with totals using each Gregorian month's actual length. Also check baseline restrictions: the pre-industrial temperature reference is not available for every region/variable. Ensemble selection offers seasonal variants only for applicable cases; inspect current controls instead of assuming annual-only or all-season availability.
+
+## Local, cantonal and multilingual answers
+
+Choose a station/map for location, altitude bands for an elevation question and the correct region family for a regional statistic. Do not call a nearest-station value a municipality/canton average. For a spatially averaged quantity without a published product, explain that a derived calculation and a defensible spatial mask/weighting are needed.
+
+The [NCCS cantons entry point](https://www.nccs.admin.ch/nccs/en/home/regions/kantone.html) has carried CH2018 fact sheets and notices of a future CH2025 update, but direct retrieval returned 404 during review. Cached page text does not establish current publication status. Find a currently retrievable official fact sheet and inspect its generation/date/baseline; otherwise explain the availability gap and use suitable CH2025 maps/stations/altitude products without inventing a canton average. A qualitative statement remaining similar does not make an old quantitative estimate interchangeable with CH2025.
+
+The atlas offers graphics in German, French, Italian and English. Follow the official page's language switch or a live display's `language` options; do not guess translated slugs or assume every report is translated. Cite the actual language/version used. The scientific report is English; brochures and many public products provide the four-language route.
 
 
 <a id="data-access"></a>
@@ -184,11 +242,17 @@ The optional helper uses only Python 3.10+ standard-library modules. Paths below
 
 ```sh
 python3 scripts/ch2025.py sources --topic heat
+python3 scripts/ch2025.py products
+python3 scripts/ch2025.py stations --query Bern
 python3 scripts/ch2025.py station --station ber --parameter tas --gwl gwl3.0
 python3 scripts/ch2025.py station --station ber --parameter tas --gwl gwl3.0 --download ./ch2025-data
+python3 scripts/ch2025.py grid --parameter tas --gwl gwl3.0 --model clmcom-cclm4-cccma
+python3 scripts/ch2025.py atlas --product pathways --select emissionScenario=ssp245 --select timeOfYear=JJA
 ```
 
-Without `--download`, the station command discovers one exact asset and prints its URL/citation; it does not save data. Download mode saves the original plus a `.provenance.json` sidecar. It refuses overwrites and limits a file to 25 MB by default (`--max-mb` changes the limit). It supports CSV/ZIP station products only; it does not fetch national daily grids or process climate statistics. Failed requests must not be reported as successful downloads.
+`sources` and `products` list bundled discovery information without network requests. `stations` searches current official metadata for station names/codes. `grid` lists matching live assets without downloading large daily grids. `atlas` returns the live selection, available controls, product-information URLs and actual file/share URLs; it downloads no figure/data and rejects requests the backend silently changes or drops. Use `--language de|fr|it|en`, repeated `--select OPTION=VALUE`, and optionally `--product-type plot|data`. Query options are product-dependent; inspect the returned `options` and read `information_urls` before interpreting a result.
+
+Without `--download`, the station command discovers one exact asset and prints its URL/citation; it does not save data. Download mode saves the original plus a `.provenance.json` sidecar. It refuses overwrites and limits a file to 25 MB by default (`--max-mb` changes the limit). Downloads support CSV/ZIP station products only; the helper does not fetch national daily grids or process climate statistics. Failed requests must not be reported as successful downloads.
 
 ## Calendars, masks and scientific calculations
 
@@ -208,6 +272,8 @@ For raw daily-grid processing, inspect the file size and spatial/time chunks bef
 Use the [official atlas](https://www.meteoswiss.admin.ch/climate/climate-change/swiss-climate-scenarios/reports-data-and-graphs-of-climate-change-scenarios/swiss-climate-scenarios-web-atlas.html). Its eight display types cover maps, altitude levels, station indicators, seasonal changes, GWL changes, emissions/time-period changes, climate charts and ensemble sub-selection. Read the selected product's information before extracting a value. Most products provide figures and data, but supported selections differ.
 
 Where browser tools are available, choose the product/indicator, place, season, GWL/pathway and estimate; use its Download and Share functions. Preserve the actual share link and selection with the output. In the reviewed station-indicator display, data mode gives an all-stations summary table and removes some figure controls; it is not a station daily series.
+
+Data tables can combine selections represented separately in figures. For example, a pathway data table can drop the figure's single season/pathway controls. If the helper rejects such a change, first discover that data mode without the dropped controls, inspect its table metadata, and only then filter the actual rows/columns. Do not report an unfiltered table as a successfully selected single-season/pathway result.
 
 Expert fallback: the official application was observed using `https://api.productbrowser.app.meteoswiss.ch/pbbackend/api/v1/displays/` with display names such as `climate-ch2025-columns` and `climate-ch2025-maps`, `lang=en`, and `cg1.*` state parameters. Returned configuration lists available states and realization URLs. This is an implementation endpoint, not a guaranteed stable API: discover it from the current application if needed, inspect returned state/media type and fall back to the official UI. A realization may return image/PDF/CSV/NetCDF, not JSON. Asking for a data state does not guarantee the response accepted it.
 

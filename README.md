@@ -9,9 +9,9 @@ The skill serves both the general public and researchers, consultants and develo
 | How you work | Use |
 |---|---|
 | Ordinary ChatGPT, Claude or another chat | [Self-contained chat instructions](chat/CH2025_CHAT.md): upload the file or paste its contents, then ask a question |
-| A product supporting custom skills | Download [the skill ZIP](releases/ch2025-swiss-climate.zip) and follow that product's import instructions |
-| Codex, Claude Code or another skills-compatible agent | Install the [skill folder](skills/ch2025-swiss-climate) as described below |
-| Python workflow | Optional [station-data helper](skills/ch2025-swiss-climate/scripts/ch2025.py), without API keys or third-party packages |
+| A product supporting custom skills | Download [the skill ZIP](releases/ch2025.zip) and follow that product's import instructions |
+| Codex, Claude Code or another skills-compatible agent | Install the [skill folder](skills/ch2025) as described below |
+| Python workflow | Optional [discovery/data helper](skills/ch2025/scripts/ch2025.py), without API keys or third-party packages |
 
 A file cannot add browsing, code execution or network access that the host does not provide. Without live access, use is limited to dated reference material and official verification links. Chat instructions are not a native skill installation. See [compatibility and installation](docs/installation.md).
 
@@ -24,7 +24,9 @@ A file cannot add browsing, code execution or network access that the host does 
 - “Get Bern/Zollikofen daily mean temperatures for GWL3.0 and describe the calendar and ensemble.”
 - “Which published ensemble sub-selection fits a drought impact study?”
 
-See [simple examples](examples/README.md), [the skill instructions](skills/ch2025-swiss-climate/SKILL.md), and [public sources](skills/ch2025-swiss-climate/references/sources.md).
+See [simple examples](examples/README.md), [the skill instructions](skills/ch2025/SKILL.md), and [public sources](skills/ch2025/references/sources.md).
+
+The skill now selects among **all eight atlas families**: maps, altitude bands, station indicators, seasonal/extreme changes, GWL comparisons, emission-scenario/time comparisons, annual cycles and ensemble selection. It also routes less-certain topics such as hail, fog, wind and fire weather through the official phenomena overview. [Which product fits my question?](skills/ch2025/references/products.md) [In-depth source-coverage review](docs/source-review.md).
 
 ## Install for an agent
 
@@ -37,38 +39,48 @@ For a **Codex project**, copy the skill into that project's `.agents/skills/` di
 
 ```sh
 mkdir -p /path/to/your/project/.agents/skills
-cp -R skills/ch2025-swiss-climate /path/to/your/project/.agents/skills/
+cp -R skills/ch2025 /path/to/your/project/.agents/skills/
 ```
 
 For **Claude Code**, use the project's `.claude/skills/` directory:
 
 ```sh
 mkdir -p /path/to/your/project/.claude/skills
-cp -R skills/ch2025-swiss-climate /path/to/your/project/.claude/skills/
+cp -R skills/ch2025 /path/to/your/project/.claude/skills/
 ```
 
 Replace `/path/to/your/project` with your project path. For personal installation or other agents, see [installation](docs/installation.md). Copy the whole skill folder, including references and the optional script. Update an existing same-named skill deliberately rather than nesting duplicate folders.
 
-In Codex, invoke `$ch2025-swiss-climate`; in Claude Code, use `/ch2025-swiss-climate`. Hosts may also select it for a matching question. Native behaviour still needs to be checked in each product. [OpenAI documentation](https://learn.chatgpt.com/docs/build-skills), [Claude Code documentation](https://code.claude.com/docs/en/skills).
+In Codex, invoke `$ch2025`; in Claude Code, use `/ch2025`. Hosts may also select it for a matching question. Native behaviour still needs to be checked in each product. [OpenAI documentation](https://learn.chatgpt.com/docs/build-skills), [Claude Code documentation](https://code.claude.com/docs/en/skills).
 
-## Optional station-data helper
+## Optional discovery and data helper
 
 Python 3.10+ is needed only for this helper. Run from the repository root:
 
 ```sh
 # List official sources without a network call.
-python3 skills/ch2025-swiss-climate/scripts/ch2025.py sources --topic heat
+python3 skills/ch2025/scripts/ch2025.py sources --topic heat
+python3 skills/ch2025/scripts/ch2025.py products
+
+# Find station codes and discover published pathway/time summaries.
+python3 skills/ch2025/scripts/ch2025.py stations --query Bern
+python3 skills/ch2025/scripts/ch2025.py atlas --product pathways \
+  --select emissionScenario=ssp245 --select timeOfYear=JJA
+
+# Discover grid assets without downloading large daily files.
+python3 skills/ch2025/scripts/ch2025.py grid \
+  --parameter tas --gwl gwl3.0 --model clmcom-cclm4-cccma
 
 # Discover one asset; no data file is saved yet.
-python3 skills/ch2025-swiss-climate/scripts/ch2025.py station \
+python3 skills/ch2025/scripts/ch2025.py station \
   --station ber --parameter tas --gwl gwl3.0
 
 # Download the original CSV and a provenance sidecar.
-python3 skills/ch2025-swiss-climate/scripts/ch2025.py station \
+python3 skills/ch2025/scripts/ch2025.py station \
   --station ber --parameter tas --gwl gwl3.0 --download ./ch2025-data
 ```
 
-It discovers actual production STAC assets, refuses overwrites, and defaults to a 25 MB file limit. It does not fetch a national archive or compute scientific statistics. [Data guidance](skills/ch2025-swiss-climate/references/data.md) covers formats, units, calendars and alternatives. Daily GWL files use synthetic years 1–30; model reference series are not observed daily weather. [Official data documentation](https://opendatadocs.meteoswiss.ch/c-climate-data/c8-c9-climate-scenarios).
+Atlas discovery returns live controls, product-information links, selected state and available file/share URLs; it rejects silently changed or dropped selections. Grid discovery is metadata-only. Station downloads preserve originals/provenance, refuse overwrites, and default to a 25 MB file limit. The helper does not fetch a national archive or compute scientific statistics. [Data guidance](skills/ch2025/references/data.md) covers formats, units, calendars and alternatives. Daily GWL files use synthetic years 1–30; model reference series are not observed daily weather. [Official data documentation](https://opendatadocs.meteoswiss.ch/c-climate-data/c8-c9-climate-scenarios).
 
 ## Sources and credit
 
@@ -90,6 +102,6 @@ See [validation](docs/validation.md) and [evaluation scenarios](evaluation/scena
 
 ## Licence and contributions
 
-The new instructions and code use [0BSD](LICENSE): reuse, modify and redistribute them without crediting the skill authors. Scientific credit follows the report's imprint. Source data/graphics retain their own terms: CH2025 daily data are documented as CC BY 4.0. The skill licence does not remove those source-attribution requirements. [Attribution guidance](skills/ch2025-swiss-climate/references/sources.md).
+The new instructions and code use [0BSD](LICENSE): reuse, modify and redistribute them without crediting the skill authors. Scientific credit follows the report's imprint. Source data/graphics retain their own terms: CH2025 daily data are documented as CC BY 4.0. The skill licence does not remove those source-attribution requirements. [Attribution guidance](skills/ch2025/references/sources.md).
 
 For a correction, include a public source, relevant section/product/version and an example question. Do not include private material or credentials. Official provider support remains separate from repository maintenance.

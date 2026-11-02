@@ -1,13 +1,13 @@
 ---
-name: ch2025-swiss-climate
+name: ch2025
 license: 0BSD
 description: Answer questions about Swiss climate and climate change using CH2025 and supporting official MeteoSwiss, NCCS and FOEN sources. Explain findings for the public, locate reports and graphics, access climate indicators and daily datasets, and support expert analysis with public source attribution in every answer. Use for Swiss climate scenarios, warming, heat, drought, precipitation, snow, observations and adaptation context; distinguish these from live weather forecasts and unsupported impact claims.
 metadata:
-  version: "0.1.0"
+  version: "0.2.0"
   evidence-reviewed: "2026-11-02"
 ---
 
-# CH2025 Swiss Climate
+# CH2025
 
 Help people understand and use authoritative information about Switzerland's climate. Use **Climate CH2025** as the primary assessment of Swiss climate change and future scenarios, with supporting official MeteoSwiss, NCCS and Federal Office for the Environment (FOEN/BAFU/OFEV/UFAM) sources for observations, services and adaptation guidance. Attribute authority to those sources; do not present this skill or its generated answers as an official publication or endorsement.
 
@@ -23,30 +23,32 @@ Choose a route in [references/sources.md](references/sources.md):
 
 | Request | Start with |
 |---|---|
-| Understand changes, causes or uncertainty | Official topic page, brochure or scientific report |
-| Find a map, figure or published indicator | CH2025 web atlas and its product information |
+| Understand changes, causes or uncertainty | Official topic page, brochure or scientific report; phenomena overview for topics beyond the main messages |
+| Find a map, figure, local/altitude indicator or a time/pathway comparison | Select the matching atlas family using [references/products.md](references/products.md); read its product information |
 | Obtain model input or inspect a dataset | Current dataset documentation and production STAC catalogue |
 | Understand historical/current observed climate | MeteoSwiss observations, climate normals or current climate reporting |
 | Choose scenarios for adaptation or ask about impacts | CH2025 hazard evidence plus the relevant official FOEN/NCCS guidance |
 | Compare methods, generations or ensembles | Scientific report, current methods/user guide and matching product metadata |
 
-Use the host's available browsing, retrieval and file tools; no particular agent, connector, account or programming library is required. If a page is an empty rendered shell, it has not supplied evidence: try its official PDF, a rendered browser or another official page. For questions outside these sources' scope, explain the gap and locate the appropriate official source rather than attributing an unsupported answer to CH2025.
+Prefer an existing published answer or aggregated product to downloading daily inputs and recomputing it. The four main messages are an introduction, not the limit of CH2025's coverage. For hail, wind, fog, radiation, humidity, compound extremes or fire weather, use the phenomena overview to find the relevant report sections and level of scientific understanding. For a canton, check the source generation: an older CH2018 fact sheet is not a CH2025 estimate.
+
+Use the host's available browsing, retrieval and file tools; no particular agent, connector, account or programming library is required. If extraction returns only navigation, it has not supplied evidence: try a parser that includes the page's HTML template/shadow-root text, its official PDF, a rendered browser or another official page. Verify the recovered title/body. For questions outside these sources' scope, explain the gap and locate the appropriate official source rather than attributing an unsupported answer to CH2025.
 
 Fetch current sources for “latest”, “today”, availability, corrections, new versions and current observations. The review date above is a snapshot, not a freshness guarantee. Prefer a current official landing page to a guessed download URL. If browsing is unavailable, use only the documented, dated information actually available in this skill or user-provided public material; identify that limitation and do not claim live verification.
 
 ## 3. Match interpretation and processing to the product
 
-Read [references/science.md](references/science.md) for scientific interpretation, [references/data.md](references/data.md) for retrieval/processing, and [references/answering.md](references/answering.md) for answer and attribution examples. Load only what the request needs.
+Read [references/science.md](references/science.md) for scientific interpretation, [references/products.md](references/products.md) for product choice, [references/data.md](references/data.md) for retrieval/processing, and [references/answering.md](references/answering.md) for answer and attribution examples. Load only what the request needs.
 
 Keep these distinctions in every workflow:
 
 - CH2025's reference period is **1991–2020**; its pre-industrial temperature reference is **1871–1900**. State the baseline for changes. A GWL is global warming, not the same Swiss warming and not a unique future year.
 - Daily GWL datasets contain **synthetic years 1–30 on a 365-day calendar**. Their reference files are model series, not the observed weather sequence. Do not join GWL blocks into a transient projection or align synthetic dates with real events.
 - Localized 1 km data are statistically downscaled from regional simulations at about 12 km. They are not all convection-permitting simulations. Check variable, station, GWL and model availability rather than assuming a complete rectangular ensemble.
-- Preserve models, units and missing values. Compute indicators within each model before ensemble summaries; quantify the relevant uncertainty. Do not treat a percentile as a physically coherent model trajectory or a calibrated probability without evidence.
+- Preserve models, units and missing values. Compute indicators within each model before ensemble summaries. CH2025 interprets the commonly shown 5th–95th percentile model range as a roughly two-thirds/"likely" range, not 90% real-world probability (report Section 2.11); retain product-specific qualifications. A percentile is not a physically coherent model trajectory.
 - For rare/sub-daily extremes, use the specialized published evidence/guidance. For impact modelling, check dependencies and data suitability. Do not turn a national signal into a precise unsupported local or impact estimate.
 
-For a download, choose the smallest useful product/subset and inspect actual returned metadata. For a derived result, retain the source/version, selections, method, units, baseline, missing-data treatment and uncertainty. Save a provenance record alongside exported data or figures. Use the user's existing project tools where suitable. The optional Python helper in [references/data.md](references/data.md) discovers or downloads one station asset without third-party dependencies; it is not required for ordinary chat.
+For a download, choose the smallest useful product/subset and inspect actual returned metadata. For a derived result, retain the source/version, selections, method, units, baseline, missing-data treatment and uncertainty. Save a provenance record alongside exported data or figures. Use the user's existing project tools where suitable. The optional Python helper in [references/data.md](references/data.md) discovers atlas products, grid assets and station metadata, or downloads one daily station asset without third-party dependencies; it is not required for ordinary chat.
 
 ## 4. Attribute every answer to publicly accessible evidence
 

@@ -1,0 +1,4 @@
+interface:
+  display_name: "CH2025"
+  short_description: "Swiss climate answers and data with public sources"
+  default_prompt: "Use $ch2025 to answer my Swiss climate question with clear public source attribution."

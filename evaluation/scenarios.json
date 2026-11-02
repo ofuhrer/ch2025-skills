@@ -1,10 +1,133 @@
 [
-  {"id":"novice-gwl","prompt":"What does a 3-degree world mean for Switzerland? Explain simply.","checks":["Plain-language answer without unnecessary questionnaire","Distinguishes global and Swiss warming","States baseline for numerical changes","No unique future year invented","Relevant public sources support claims"]},
-  {"id":"novice-drought-rain-de","prompt":"Warum werden Schweizer Sommer trockener, wenn Starkregen doch häufiger wird? Bitte kurz.","checks":["Answers in German","Distinguishes seasonal dryness from intense events","No unsupported local number","Public official sources for both concepts"]},
-  {"id":"local-snow","prompt":"Will my town still have enough snow for skiing?","checks":["Useful initial explanation plus focused location/elevation/horizon clarification","Does not invent town or snow-day count","Distinguishes climate hazard from ski operations/viability","Public snow source"]},
-  {"id":"expert-station","prompt":"Download Bern/Zollikofen DAILY-LOCAL tas for GWL3.0 as CSV. Inspect it and save provenance.","checks":["Uses actual returned STAC asset","Original values preserved","Actual unit/calendar/model count inspected","Synthetic dates recognized","Public data citation and provenance saved","Success claimed only after actual retrieval"]},
-  {"id":"expert-dates","prompt":"Line up the GWL3.0 daily temperature series with actual dates for 2041–2070.","checks":["Does not silently invent calendar alignment","Explains conditional GWL and synthetic calendar","Gives suitable documented route or clarification for time-specific impact modelling","Public method/data citation"]},
-  {"id":"latest-no-network","prompt":"Without browsing, tell me the latest observed Swiss annual warming value.","checks":["Does not claim latest/live verification","Distinguishes dated assessment from current observations","States what cannot be established","Provides official observation verification route"]},
-  {"id":"adaptation","prompt":"Does CH2025 legally require every infrastructure project to use GWL3.0?","checks":["Distinguishes scientific evidence and recommendation from law","Checks current official guidance if available","Avoids unsupported universal legal assertion","Links relevant official recommendation"]},
-  {"id":"derived-result","prompt":"Calculate an ensemble summary of hot days from daily data and present it as an official CH2025 number.","checks":["Labels calculations as derived rather than published","Uses correct official indicator definition","Calculates per-model before ensemble summary","Documents baseline/calendar/missingness/units and uncertainty","Public input and method citations"]}
+  {
+    "id": "novice-gwl",
+    "prompt": "What does a 3-degree world mean for Switzerland? Explain simply.",
+    "checks": [
+      "Plain-language answer without unnecessary questionnaire",
+      "Distinguishes global and Swiss warming",
+      "States baseline for numerical changes",
+      "No unique future year invented",
+      "Relevant public sources support claims"
+    ]
+  },
+  {
+    "id": "novice-drought-rain-de",
+    "prompt": "Warum werden Schweizer Sommer trockener, wenn Starkregen doch häufiger wird? Bitte kurz.",
+    "checks": [
+      "Answers in German",
+      "Distinguishes seasonal dryness from intense events",
+      "No unsupported local number",
+      "Public official sources for both concepts"
+    ]
+  },
+  {
+    "id": "local-snow",
+    "prompt": "Will my town still have enough snow for skiing?",
+    "checks": [
+      "Useful initial explanation plus focused location/elevation/horizon clarification",
+      "Does not invent town or snow-day count",
+      "Distinguishes climate hazard from ski operations/viability",
+      "Public snow source"
+    ]
+  },
+  {
+    "id": "expert-station",
+    "prompt": "Download Bern/Zollikofen DAILY-LOCAL tas for GWL3.0 as CSV. Inspect it and save provenance.",
+    "checks": [
+      "Uses actual returned STAC asset",
+      "Original values preserved",
+      "Actual unit/calendar/model count inspected",
+      "Synthetic dates recognized",
+      "Public data citation and provenance saved",
+      "Success claimed only after actual retrieval"
+    ]
+  },
+  {
+    "id": "expert-dates",
+    "prompt": "Line up the GWL3.0 daily temperature series with actual dates for 2041–2070.",
+    "checks": [
+      "Does not silently invent calendar alignment",
+      "Explains conditional GWL and synthetic calendar",
+      "Gives suitable documented route or clarification for time-specific impact modelling",
+      "Public method/data citation"
+    ]
+  },
+  {
+    "id": "latest-no-network",
+    "prompt": "Without browsing, tell me the latest observed Swiss annual warming value.",
+    "checks": [
+      "Does not claim latest/live verification",
+      "Distinguishes dated assessment from current observations",
+      "States what cannot be established",
+      "Provides official observation verification route"
+    ]
+  },
+  {
+    "id": "adaptation",
+    "prompt": "Does CH2025 legally require every infrastructure project to use GWL3.0?",
+    "checks": [
+      "Distinguishes scientific evidence and recommendation from law",
+      "Checks current official guidance if available",
+      "Avoids unsupported universal legal assertion",
+      "Links relevant official recommendation"
+    ]
+  },
+  {
+    "id": "derived-result",
+    "prompt": "Calculate an ensemble summary of hot days from daily data and present it as an official CH2025 number.",
+    "checks": [
+      "Labels calculations as derived rather than published",
+      "Uses correct official indicator definition",
+      "Calculates per-model before ensemble summary",
+      "Documents baseline/calendar/missingness/units and uncertainty",
+      "Public input and method citations"
+    ]
+  },
+  {
+    "id": "published-time-product",
+    "prompt": "What is the published change in Swiss summer precipitation around 2050 under SSP2-4.5?",
+    "checks": [
+      "Uses the published pathway/time product rather than daily recomputation",
+      "Identifies 2050 as 2035–2064 and baseline 1991–2020",
+      "Preserves SSP2-4.5, JJA, CH and uncertainty",
+      "Links actual product information/data"
+    ]
+  },
+  {
+    "id": "uncertainty-interpretation",
+    "prompt": "Does the CH2025 5th–95th percentile range mean 90% probability for reality?",
+    "checks": [
+      "Distinguishes modeled spread from actual-outcome probability",
+      "States CH2025 roughly two-thirds/likely interpretation with source",
+      "Does not present it as independently calibrated certainty"
+    ]
+  },
+  {
+    "id": "broader-phenomena",
+    "prompt": "What does CH2025 say about hail, fog and wind? Are all changes equally certain?",
+    "checks": [
+      "Uses the official phenomena overview and relevant report sections",
+      "Separates physical expectations, observations and projections",
+      "Preserves differing evidence strength",
+      "No unsupported extrapolation from temperature"
+    ]
+  },
+  {
+    "id": "atlas-product-choice",
+    "prompt": "I need elevation bands, a typical station annual cycle, and published regional 50-year rainfall return-level changes. Which products should I use?",
+    "checks": [
+      "Routes separately to altitude, climate charts and Seasonal changes",
+      "Distinguishes raw-model changes from absolute local return levels",
+      "Cites product-specific information"
+    ]
+  },
+  {
+    "id": "canton-generation",
+    "prompt": "Can I quote this old NCCS cantonal fact sheet as CH2025?",
+    "checks": [
+      "Checks actual generation/date/baseline",
+      "Does not infer current release status from a cached index",
+      "Does not relabel CH2018 quantitative results or station values as a CH2025 canton average"
+    ]
+  }
 ]

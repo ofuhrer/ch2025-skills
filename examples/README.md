@@ -1,6 +1,6 @@
 # Simple examples
 
-Use these with [the chat instructions](../chat/CH2025_CHAT.md) or an installed [skill](../skills/ch2025-swiss-climate/SKILL.md). These prompts describe expected behaviour, not precomputed answers or claims that downloads already ran.
+Use these with [the chat instructions](../chat/CH2025_CHAT.md) or an installed [skill](../skills/ch2025/SKILL.md). These prompts describe expected behaviour, not precomputed answers or claims that downloads already ran.
 
 ## Understand a warmer Switzerland
 
@@ -33,7 +33,7 @@ Identify station/urban context, locate the product or ask a consequential clarif
 From the repository root:
 
 ```sh
-python3 skills/ch2025-swiss-climate/scripts/ch2025.py station \
+python3 skills/ch2025/scripts/ch2025.py station \
   --station ber --parameter tas --gwl gwl3.0 --download ./ch2025-data
 ```
 
@@ -44,3 +44,32 @@ Report what actually succeeded, retain the synthetic calendar and cite [the acce
 > We are planning infrastructure that should last several decades. What official guidance helps us choose a CH2025 scenario, and what information do you need from us?
 
 Distinguish scientific evidence from planning recommendations and cite [current FOEN guidance](https://www.bafu.admin.ch/de/empfehlung-klimaszenarien). Ask only for consequential project context. Do not present a recommendation as a binding legal standard for all projects.
+
+## Use a published time-horizon result
+
+> What does CH2025 project for Swiss summer rainfall around 2050 under SSP2-4.5? Please use published results rather than calculate a new indicator.
+
+Choose the [Changes by emission scenario](https://www.meteoswiss.admin.ch/services-and-publications/applications/ext/climate-ch2025-periodbars.html) product. Its central-year 2050 period is **2035–2064**, not weather in one year or a daily 2041–2070 series. Preserve variable, region, JJA, pathway, baseline, published range and source selection. [Product documentation](https://productinformation.app.meteoswiss.ch/climate-ch2025-periodbars-temperature/climate-ch2025-periodbars-temperature_en.md).
+
+```sh
+python3 skills/ch2025/scripts/ch2025.py atlas --product pathways \
+  --select scenarioIndicator=pr --select emissionScenario=ssp245 \
+  --select timeOfYear=JJA --select referencePeriod=1991-2020
+```
+
+## Ask about evidence beyond the main messages
+
+> Does CH2025 say that hail, fog and wind will all become more extreme? How confident are the findings?
+
+Start with the [phenomena overview](https://www.meteoswiss.admin.ch/dam/jcr:d21a2534-89d2-4b8f-96df-4fdf826cd380/CH2025_Overview-of-past-and-future-changes.pdf), then its report-section pointers. Separate observations, process expectations and projections for each phenomenon, and preserve their different levels of scientific understanding. Do not generalize the strong evidence for warming to every weather phenomenon.
+
+## Find published extreme-precipitation changes
+
+> Find the published change in the 50-year return value of 1-day precipitation for western Switzerland. Do not estimate a new return level from station daily data.
+
+Use the Seasonal changes product (`x1d50`, model region `CHW`) and read the returned product help. It provides a regional change signal relative to 1991–2020; it is not an absolute local design rainfall. [Official application](https://www.meteoswiss.admin.ch/services-and-publications/applications/ext/climate-ch2025-barplotperiod.html).
+
+```sh
+python3 skills/ch2025/scripts/ch2025.py atlas --product seasonal \
+  --select scenarioIndicator=x1d50 --select region=CHW
+```

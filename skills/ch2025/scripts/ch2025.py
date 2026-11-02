@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Discover public CH2025 sources or retrieve one station asset. Python 3.10+."""
+"""Discover CH2025 sources, atlas/grid/station products, or retrieve a station asset. Python 3.10+."""
 import argparse
 import csv
 import datetime as dt
@@ -10,7 +10,7 @@ from pathlib import Path
 import re
 import sys
 from urllib.error import HTTPError, URLError
-from urllib.parse import urlparse
+from urllib.parse import urlparse, urlencode
 from urllib.request import Request, urlopen
 import zipfile
 
@@ -18,12 +18,96 @@ SKILL = Path(__file__).resolve().parents[1]
 STAC = "https://data.geo.admin.ch/api/stac/v1"
 COLLECTION = "ch.meteoschweiz.ogd-climate-scenarios-ch2025"
 DOI = "https://doi.org/10.18751/climate/scenarios/ch2025/data/1.0/"
+ATLAS = "https://api.productbrowser.app.meteoswiss.ch/pbbackend/api/v1/displays/"
+
+
+def products():
+    return json.loads((SKILL / "references/products.json").read_text())
+
+
+def atlas_product(product, language="en", selections=None, product_type=None):
+    """Discover a live display, rejecting silently changed or dropped selections."""
+    entry = next((p for p in products() if p["key"] == product), None)
+    if entry is None:
+        raise ValueError("Unknown atlas product; use the products command")
+    requested = dict(selections or {})
+    if any(not re.fullmatch(r"[A-Za-z][A-Za-z0-9]*", key) for key in requested):
+        raise ValueError("Use live option IDs, e.g. scenarioIndicator, region or location")
+    if "language" in requested and requested["language"] != language:
+        raise ValueError("Specify language using --language")
+    requested["language"] = language
+    if product_type:
+        requested["productType"] = product_type
+    query = {"lang": language, "isPlayerActive": "false"}
+    query.update({"cg1." + key: value for key, value in requested.items()})
+    configuration_url = ATLAS + entry["display_id"] + "?" + urlencode(query)
+    display = fetch_json(configuration_url)
+    groups = display.get("componentGroups", [])
+    if not groups:
+        raise ValueError("Atlas returned no display state; use the official application")
+    selected = groups[0].get("stateEntries", {})
+    changed = {key: {"requested": value, "returned": selected.get(key)}
+               for key, value in requested.items() if selected.get(key) != value}
+    if changed:
+        raise ValueError("Atlas changed or dropped requested selections: " + json.dumps(changed) +
+                         ". Inspect live options; some data products combine multiple locations, seasons or pathways.")
+    options, realizations, information = [], [], []
+    for component in display.get("components", []):
+        value = component.get("value", {})
+        if component.get("type") == "form":
+            options.extend(value.get("elements", []))
+        elif component.get("type") == "media":
+            realizations.extend(value.get("realizations", []))
+        elif component.get("type") == "info" and value.get("url"):
+            information.append(value["url"])
+    return dict(status="discovered", product=product, title=entry["title"],
+                official_url=entry["url"], configuration_url=configuration_url,
+                requested=requested, selected=selected, options=options,
+                information_urls=information, realizations=realizations,
+                citation="MeteoSwiss and ETH Zurich, Climate CH2025",
+                licence="CC BY 4.0", notes="Implementation API; verify content and read product information. No data file downloaded.")
+
+
+def station_catalogue(query):
+    """Resolve station names/codes using the collection's actual metadata asset."""
+    collection_url = f"{STAC}/collections/{COLLECTION}"
+    collection = fetch_json(collection_url)
+    matches = [a for key, a in collection.get("assets", {}).items() if key.endswith("_meta_stations.csv")]
+    if len(matches) != 1:
+        raise ValueError("Could not identify station metadata; use the official catalogue")
+    url = matches[0]["href"]
+    with request(url) as response:
+        raw = response.read(5_000_001)
+    if len(raw) > 5_000_000:
+        raise ValueError("Station metadata exceeds 5 MB")
+    reader = csv.DictReader(io.StringIO(raw.decode("utf-8-sig")), delimiter=";")
+    if not reader.fieldnames or not {"station_abbr", "station_name"}.issubset(reader.fieldnames):
+        raise ValueError("Unrecognized station metadata schema")
+    rows = [row for row in reader if query.casefold() in
+            " ".join([row["station_abbr"], row["station_name"], row.get("station_canton", "")]).casefold()]
+    return dict(status="discovered", query=query, metadata_url=url, stations=rows,
+                note="Check variable availability in each station item; a station is not a municipality average.")
+
+
+def grid_assets(parameter, gwl, model=None):
+    item_url = f"{STAC}/collections/{COLLECTION}-grid/items/ch"
+    item = fetch_json(item_url)
+    suffix = "_" + gwl.lower() + ".nc"
+    prefix = "ogd-climate-scenarios-ch2025-grid_ch_" + parameter.lower() + "_"
+    assets = [dict(asset=key, **value) for key, value in item.get("assets", {}).items()
+              if key.startswith(prefix) and key.endswith(suffix) and
+              (not model or model.lower() in key[len(prefix):-len(suffix)])]
+    if not assets:
+        raise ValueError("No matching grid assets; inspect the current grid catalogue")
+    return dict(status="discovered", item_url=item_url, parameter=parameter, gwl=gwl,
+                assets=assets, doi=DOI, licence="CC BY 4.0",
+                note="Metadata only. Raw daily grid files can exceed 1 GB; no file downloaded.")
 
 
 def request(url):
     if urlparse(url).scheme != "https":
         raise ValueError("Expected an HTTPS public source URL")
-    return urlopen(Request(url, headers={"User-Agent": "CH2025-skills/0.1"}), timeout=45)
+    return urlopen(Request(url, headers={"User-Agent": "CH2025-skills/0.2"}), timeout=45)
 
 
 def fetch_json(url):
@@ -128,6 +212,18 @@ def main():
     commands = parser.add_subparsers(dest="command", required=True)
     sources = commands.add_parser("sources", help="List bundled public sources; no network request")
     sources.add_argument("--topic", default="")
+    commands.add_parser("products", help="List all eight atlas families; no network request")
+    atlas = commands.add_parser("atlas", help="Discover live atlas options and figures/data; no file download")
+    atlas.add_argument("--product", required=True, choices=[p["key"] for p in products()])
+    atlas.add_argument("--language", choices=["de", "fr", "it", "en"], default="en")
+    atlas.add_argument("--select", action="append", default=[], metavar="OPTION=VALUE")
+    atlas.add_argument("--product-type", choices=["plot", "data"])
+    stations = commands.add_parser("stations", help="Find names/codes in official station metadata")
+    stations.add_argument("--query", required=True)
+    grid = commands.add_parser("grid", help="Discover daily-grid assets without downloading large files")
+    grid.add_argument("--parameter", required=True, choices=["tas", "tasmin", "tasmax", "pr"])
+    grid.add_argument("--gwl", required=True, type=str.lower, choices=["ref91-20", "gwl1.5", "gwl2.0", "gwl2.5", "gwl3.0"])
+    grid.add_argument("--model", help="Optional model-chain substring to filter actual asset keys")
     station = commands.add_parser("station", help="Discover one station asset; optionally download it")
     station.add_argument("--station", required=True)
     station.add_argument("--parameter", required=True, choices=["tas", "tasmin", "tasmax", "pr", "rsds", "hurs", "sfcwind"])
@@ -140,6 +236,20 @@ def main():
         if args.command == "sources":
             sources = json.loads((SKILL / "references/sources.json").read_text())
             result = [s for s in sources if args.topic.lower() in json.dumps(s, ensure_ascii=False).lower()]
+        elif args.command == "products":
+            result = products()
+        elif args.command == "atlas":
+            selections = {}
+            for option in args.select:
+                key, separator, value = option.partition("=")
+                if not separator or not value or key in selections:
+                    raise ValueError("Use unique --select OPTION=VALUE entries")
+                selections[key] = value
+            result = atlas_product(args.product, args.language, selections, args.product_type)
+        elif args.command == "stations":
+            result = station_catalogue(args.query)
+        elif args.command == "grid":
+            result = grid_assets(args.parameter, args.gwl, args.model)
         else:
             if args.max_mb <= 0:
                 raise ValueError("--max-mb must be positive")

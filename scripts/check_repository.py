@@ -20,6 +20,9 @@ def main():
     sources = json.loads((SKILL / "references/sources.json").read_text())
     assert len({s["id"] for s in sources}) == len(sources)
     assert all(s["url"].startswith("https://") for s in sources)
+    registry = json.loads((SKILL / "references/products.json").read_text())
+    assert len(registry) == len({p["key"] for p in registry}) == 8
+    assert len({p["display_id"] for p in registry}) == 8
     build(check=True)
     documents = [ROOT / "README.md", *list((ROOT / "docs").glob("*.md")),
                  *list((ROOT / "examples").glob("*.md")), ROOT / "chat/CH2025_CHAT.md",
@@ -41,7 +44,7 @@ def main():
     scenarios = json.loads((ROOT / "evaluation/scenarios.json").read_text())
     assert len({s["id"] for s in scenarios}) == len(scenarios)
     print(f"Repository checks passed: {len(documents)} Markdown documents, {len(sources)} sources, "
-          f"{len(scenarios)} evaluation scenarios, current chat file and ZIP")
+          f"{len(registry)} atlas families, {len(scenarios)} evaluation scenarios, current chat file and ZIP")
 
 
 if __name__ == "__main__":

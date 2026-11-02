@@ -1,0 +1,112 @@
+[
+  {
+    "key": "maps",
+    "title": "Spatial indicators and maps",
+    "topics": [
+      "map",
+      "spatial",
+      "location"
+    ],
+    "display_id": "climate-ch2025-maps",
+    "url": "https://www.meteoswiss.admin.ch/services-and-publications/applications/ext/climate-ch2025-maps.html",
+    "default_information_url": "https://productinformation.app.meteoswiss.ch/climate-ch2025-maps-drought-gwl/climate-ch2025-maps-drought-gwl_en.md",
+    "reviewed": "2026-11-02"
+  },
+  {
+    "key": "altitude",
+    "title": "Indicators by altitude",
+    "topics": [
+      "altitude",
+      "elevation",
+      "snow"
+    ],
+    "display_id": "climate-ch2025-altitude-levels",
+    "url": "https://www.meteoswiss.admin.ch/services-and-publications/applications/ext/climate-ch2025-altitude-levels.html",
+    "default_information_url": "https://productinformation.app.meteoswiss.ch/climate-ch2025-altitudelevels-temperature/climate-ch2025-altitudelevels-temperature_en.md",
+    "reviewed": "2026-11-02"
+  },
+  {
+    "key": "stations",
+    "title": "Indicators at stations",
+    "topics": [
+      "station",
+      "urban",
+      "heat",
+      "fire",
+      "growing",
+      "energy"
+    ],
+    "display_id": "climate-ch2025-columns",
+    "url": "https://www.meteoswiss.admin.ch/services-and-publications/applications/ext/climate-ch2025-columns.html",
+    "default_information_url": "https://productinformation.app.meteoswiss.ch/climate-ch2025-columns-cold/climate-ch2025-columns-cold_en.md",
+    "reviewed": "2026-11-02"
+  },
+  {
+    "key": "seasonal",
+    "title": "Seasonal and extreme change signals",
+    "topics": [
+      "season",
+      "extreme",
+      "rainfall",
+      "return period"
+    ],
+    "display_id": "climate-ch2025-barplotperiod",
+    "url": "https://www.meteoswiss.admin.ch/services-and-publications/applications/ext/climate-ch2025-barplotperiod.html",
+    "default_information_url": "https://productinformation.app.meteoswiss.ch/climate-ch2025-barplotperiod-heavyprecip/climate-ch2025-barplotperiod-heavyprecip_en.md",
+    "reviewed": "2026-11-02"
+  },
+  {
+    "key": "warming",
+    "title": "Changes by global warming level",
+    "topics": [
+      "gwl",
+      "warming",
+      "zero-degree"
+    ],
+    "display_id": "climate-ch2025-gwlbars",
+    "url": "https://www.meteoswiss.admin.ch/services-and-publications/applications/ext/climate-ch2025-gwlbars.html",
+    "default_information_url": "https://productinformation.app.meteoswiss.ch/climate-ch2025-gwlbars-temperature/climate-ch2025-gwlbars-temperature_en.md",
+    "reviewed": "2026-11-02"
+  },
+  {
+    "key": "pathways",
+    "title": "Changes by emission scenario and future period",
+    "topics": [
+      "2040",
+      "2050",
+      "2060",
+      "pathway",
+      "time"
+    ],
+    "display_id": "climate-ch2025-periodbars",
+    "url": "https://www.meteoswiss.admin.ch/services-and-publications/applications/ext/climate-ch2025-periodbars.html",
+    "default_information_url": "https://productinformation.app.meteoswiss.ch/climate-ch2025-periodbars-temperature/climate-ch2025-periodbars-temperature_en.md",
+    "reviewed": "2026-11-02"
+  },
+  {
+    "key": "annual-cycle",
+    "title": "Climate charts / annual cycle",
+    "topics": [
+      "annual cycle",
+      "monthly",
+      "climate chart"
+    ],
+    "display_id": "climate-ch2025-climatenormals",
+    "url": "https://www.meteoswiss.admin.ch/services-and-publications/applications/ext/climate-ch2025-climatenormals.html",
+    "default_information_url": "https://productinformation.app.meteoswiss.ch/climate-ch2025-climatenormals-temperature/climate-ch2025-climatenormals-temperature_en.md",
+    "reviewed": "2026-11-02"
+  },
+  {
+    "key": "ensemble",
+    "title": "Ensemble selection tables and diagnostics",
+    "topics": [
+      "ensemble",
+      "selection",
+      "ranking"
+    ],
+    "display_id": "climate-ch2025-ensemble-subselection",
+    "url": "https://www.meteoswiss.admin.ch/services-and-publications/applications/ext/climate-ch2025-ensemble-subselection.html",
+    "default_information_url": "https://productinformation.app.meteoswiss.ch/climate-ch2025-ensemble-subselection-ccs-boxplot/climate-ch2025-ensemble-subselection-ccs-boxplot_en.md",
+    "reviewed": "2026-11-02"
+  }
+]
