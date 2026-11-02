@@ -2,6 +2,8 @@
 
 The canonical package is `skills/ch2025/`. Its `SKILL.md` contains standard YAML `name`/`description` metadata and Markdown instructions; supporting files use relative paths. This follows the [Agent Skills specification](https://agentskills.io/specification). Optional `agents/openai.yaml` supplies UI metadata for supporting OpenAI hosts, without imposing a dependency on other hosts.
 
+This guide supplies the host-specific steps for an agent carrying out the [README installation prompt](../README.md#ask-your-agent-to-install-it), and for users who prefer manual setup. Check for an existing installation before choosing a route; verify the result and report any user action still needed.
+
 ## Chat with repository access
 
 Ask ChatGPT, Claude or another capable chat:
@@ -46,6 +48,17 @@ Choose plugin installation or a standalone copy, not both. Codex installation is
 Use [the skill ZIP](../releases/ch2025.zip) with the host's documented import facility, where available. It contains one top-level skill folder. Installation is separate in each host; a GitHub download does not register a skill everywhere.
 
 OpenAI documents skills for ChatGPT/Codex, with standalone skills and plugin distribution having different availability: [Build skills](https://learn.chatgpt.com/docs/build-skills). Claude documents custom skills across products, with setup/tool access depending on the surface: [Agent Skills](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview). Check those current pages for account/workspace requirements. Native installation in every product has not been tested here.
+
+## Get a checkout for standalone installation
+
+If a checkout is not already available, clone the public repository:
+
+```sh
+git clone https://github.com/ofuhrer/ch2025-skills.git
+cd ch2025-skills
+```
+
+The marketplace route above handles repository retrieval itself.
 
 ## Standalone Codex skill
 

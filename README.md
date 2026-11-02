@@ -6,20 +6,23 @@ The skill serves both the general public and researchers, consultants and develo
 
 ## Start here
 
-| How you work | Use |
-|---|---|
-| Chat with GitHub or web access | Give it [this repository URL](https://github.com/ofuhrer/ch2025-skills) and ask it to use the skill for the conversation |
-| Codex or Claude Code with plugins | Install from this repository’s [plugin marketplace](docs/installation.md#marketplace-installation) |
-| Chat without repository access | Upload [compact chat instructions](chat/CH2025_CHAT.md); paste only if uploads are unavailable |
-| A product supporting custom skills | Download [the skill ZIP](releases/ch2025.zip) and follow that product's import instructions |
-| Agent without plugin support | Install the [skill folder](skills/ch2025) as described below |
-| Python workflow | Optional [discovery/data helper](skills/ch2025/scripts/ch2025.py), without API keys or third-party packages |
+### Use it in this conversation
 
-For a chat with repository access, start with:
+Ask ChatGPT, Claude or another chat with repository access:
 
-> Use https://github.com/ofuhrer/ch2025-skills for this conversation. Read skills/ch2025/SKILL.md, follow only the references needed for my question, and cite the official evidence.
+> Use https://github.com/ofuhrer/ch2025-skills for this conversation. Follow its CH2025 guidance and cite official sources when answering my climate questions.
 
-No file copying is needed when the chat can retrieve those files. This loads guidance for the conversation; a plugin installation makes it available through the host's skill/plugin system. A file cannot add browsing, code execution or network access that the host does not provide. Without live access, use is limited to dated reference material and official verification links. Chat instructions are not a native skill installation. See [compatibility and installation](docs/installation.md).
+The agent can fetch the instructions and relevant references directly. No upload or installation is needed for this route.
+
+### Ask your agent to install it
+
+For use across conversations, ask Codex, Claude Code or another skills-compatible agent:
+
+> Install the CH2025 skills from https://github.com/ofuhrer/ch2025-skills for this agent. Follow docs/installation.md, using the marketplace where supported or the standalone skill otherwise. Preserve existing installations, avoid duplicate copies, and verify that CH2025 is available. Tell me how to invoke it and whether I need to start a new session.
+
+For a project-specific installation, add “Install for this project only.” The agent handles the commands and paths; if the host requires a user action, it should explain that step.
+
+If your chat cannot access the repository, upload [the compact chat instructions](chat/CH2025_CHAT.md). Hosts with manual skill import can use [the skill ZIP](releases/ch2025.zip). Detailed commands, compatibility, updates and removal are in [the installation guide](docs/installation.md).
 
 ## What you can ask
 
@@ -34,77 +37,13 @@ See [simple examples](examples/README.md), [the skill instructions](skills/ch202
 
 The skill now selects among **all eight atlas families**: maps, altitude bands, station indicators, seasonal/extreme changes, GWL comparisons, emission-scenario/time comparisons, annual cycles and ensemble selection. It also routes less-certain topics such as hail, fog, wind and fire weather through the official phenomena overview. [Which product fits my question?](skills/ch2025/references/products.md) [In-depth source-coverage review](docs/source-review.md).
 
-## Install through a marketplace
+## Data workflows
 
-Codex:
+Ask your agent, for example:
 
-```sh
-codex plugin marketplace add ofuhrer/ch2025-skills
-codex plugin add ch2025@ch2025-skills
-```
+> Find Bern/Zollikofen daily mean temperature data for GWL3.0. Download the original CSV into my workspace, save its source provenance, and explain the units, calendar and model coverage.
 
-Claude Code:
-
-```text
-/plugin marketplace add ofuhrer/ch2025-skills
-/plugin install ch2025@ch2025-skills
-/reload-plugins
-```
-
-This repository hosts its own marketplace; it is not a listing in OpenAI's or Anthropic's curated directory. See [installation and verification](docs/installation.md). Choose either plugin installation or a standalone skill copy to avoid duplicates.
-
-## Install a standalone skill
-
-```sh
-git clone https://github.com/ofuhrer/ch2025-skills.git
-cd ch2025-skills
-```
-
-Install with Python 3.10+ into **one** host's skills directory (existing installations are preserved):
-
-```sh
-# Personal Codex installation; works across projects.
-python3 scripts/install_skill.py ~/.agents/skills
-
-# Or install for a particular Codex project.
-python3 scripts/install_skill.py /path/to/your/project/.agents/skills
-
-# Or install for Claude Code.
-python3 scripts/install_skill.py ~/.claude/skills
-```
-
-The installer copies the complete skill and licence, refuses to merge/overwrite an existing `ch2025` folder, and requires no account or network. Without Python, extract [the ZIP](releases/ch2025.zip) into the host's skills directory. See [installation, updates and removal](docs/installation.md).
-
-In Codex, invoke `$ch2025`; in Claude Code, use `/ch2025`. Hosts may also select it for a matching question. Native behaviour still needs to be checked in each product. [OpenAI documentation](https://learn.chatgpt.com/docs/build-skills), [Claude Code documentation](https://code.claude.com/docs/en/skills).
-
-## Optional discovery and data helper
-
-Python 3.10+ is needed only for this helper. Run from the repository root:
-
-```sh
-# List official sources without a network call.
-python3 skills/ch2025/scripts/ch2025.py sources --topic heat
-python3 skills/ch2025/scripts/ch2025.py products
-
-# Find station codes and discover published pathway/time summaries.
-python3 skills/ch2025/scripts/ch2025.py stations --query Bern
-python3 skills/ch2025/scripts/ch2025.py atlas --product pathways \
-  --select emissionScenario=ssp245 --select timeOfYear=JJA
-
-# Discover grid assets without downloading large daily files.
-python3 skills/ch2025/scripts/ch2025.py grid \
-  --parameter tas --gwl gwl3.0 --model clmcom-cclm4-cccma
-
-# Discover one asset; no data file is saved yet.
-python3 skills/ch2025/scripts/ch2025.py station \
-  --station ber --parameter tas --gwl gwl3.0
-
-# Download the original CSV and a provenance sidecar.
-python3 skills/ch2025/scripts/ch2025.py station \
-  --station ber --parameter tas --gwl gwl3.0 --download ./ch2025-data
-```
-
-Atlas discovery returns live controls, product-information links, selected state and available file/share URLs; it rejects silently changed or dropped selections. Grid discovery is metadata-only. Station downloads check complete synthetic-date sequences and numeric values, count missing cells, preserve originals/provenance, refuse overwrites, and default to a 25 MB file limit. The helper does not fetch a national archive or compute scientific statistics. [Data guidance](skills/ch2025/references/data.md) covers formats, units, calendars and alternatives. Daily GWL files use synthetic years 1–30; model reference series are not observed daily weather. [Official data documentation](https://opendatadocs.meteoswiss.ch/c-climate-data/c8-c9-climate-scenarios).
+The optional Python helper discovers published products and checks station downloads. It needs Python 3.10+ but no API keys or third-party packages. The agent can use the [data guidance](skills/ch2025/references/data.md) and [worked examples](examples/README.md) for commands. Ordinary explanations do not require Python.
 
 ## Sources and credit
 
