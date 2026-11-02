@@ -43,4 +43,4 @@ ECMWF use: skills — none applied (upstream files reviewed for comparison); MCP
 
 The smaller chat file deliberately links optional detail, so it has less offline scientific context. The native ZIP still contains all four references. Neither format guarantees truthful model output; model-level citation/abstention scenarios and native hosted imports need their own trials. Existing independent v0.1.0 trials are historical evidence, not a fresh evaluation of v0.3.0.
 
-GitHub Actions remains a checked-in workflow example because the configured publishing credential lacks `workflow` scope. All executable checks were run locally; no credential or account settings were changed.
+At review time, GitHub Actions was supplied as an example because the publishing credential lacked `workflow` scope. The workflow has since been moved to [the active CI configuration](../.github/workflows/checks.yml); see [workflow runs](https://github.com/ofuhrer/ch2025-skills/actions/workflows/checks.yml) for execution results. No credential or account settings were changed by this review.

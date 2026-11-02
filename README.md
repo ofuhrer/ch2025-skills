@@ -97,6 +97,8 @@ python3 -m unittest discover -s tests -v
 python3 scripts/check_repository.py
 ```
 
+GitHub Actions runs these offline tests and package checks on Python 3.10 and 3.13 for every push and pull request. [View CI runs](https://github.com/ofuhrer/ch2025-skills/actions/workflows/checks.yml).
+
 See the [package review](docs/package-review.md), [validation](docs/validation.md) and [evaluation scenarios](evaluation/scenarios.json). Recorded checks describe what was tested; they do not establish native execution in every model/product or perfect scientific answers.
 
 ## Licence and contributions

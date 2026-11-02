@@ -14,7 +14,7 @@ The helper tests use small synthetic transport/format fixtures, not fake scienti
 
 The ZIP packages only the skill folder and its licence. The compact chat version is generated from the same core, with optional references linked instead of embedded. The local source-gathering archive is excluded from both the package and version control.
 
-An optional [GitHub Actions example](github-actions.example.yml) runs the checks on Python 3.10 and 3.13. To enable it, add it as `.github/workflows/checks.yml` using an account/token authorised to manage workflows. It remains an example, not active CI: the publishing credential was rechecked on 2 November 2026 and lacks the GitHub `workflow` scope. Account permissions were not changed.
+[GitHub Actions](../.github/workflows/checks.yml) runs the offline tests and repository checks on Python 3.10 and 3.13 for pushes and pull requests. It checks the committed chat/ZIP artifacts without rebuilding them, so stale generated files fail CI. Live service checks remain opt-in. See [workflow runs](https://github.com/ofuhrer/ch2025-skills/actions/workflows/checks.yml).
 
 ## Live contracts
 
