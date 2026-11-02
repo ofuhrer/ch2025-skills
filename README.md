@@ -1,6 +1,6 @@
 # CH2025 Swiss Climate — Agent Skills
 
-Ask about Switzerland's climate in everyday language, find an official figure or report, or obtain climate data for an expert workflow. This repository provides a portable skill grounded in **Climate CH2025** and supporting official MeteoSwiss, NCCS and FOEN sources, with **public source attribution in every climate answer**.
+Ask about Switzerland's climate in everyday language, find an official figure or report, or obtain climate data for an expert workflow. This repository provides a portable skill grounded in **Climate CH2025** and supporting official MeteoSwiss, NCCS and FOEN sources, with **official sources beside substantive climate claims**.
 
 The skill serves both the general public and researchers, consultants and developers. It adapts the depth to the question, explains uncertainty, and distinguishes observations, conditional projections and adaptation guidance. Authority belongs to the cited sources; this repository is not an official MeteoSwiss/NCCS/FOEN publication or endorsement.
 
@@ -8,7 +8,7 @@ The skill serves both the general public and researchers, consultants and develo
 
 | How you work | Use |
 |---|---|
-| Ordinary ChatGPT, Claude or another chat | [Self-contained chat instructions](chat/CH2025_CHAT.md): upload the file or paste its contents, then ask a question |
+| Ordinary ChatGPT, Claude or another chat | [Compact chat instructions](chat/CH2025_CHAT.md): upload the file or paste its contents, then ask a question |
 | A product supporting custom skills | Download [the skill ZIP](releases/ch2025.zip) and follow that product's import instructions |
 | Codex, Claude Code or another skills-compatible agent | Install the [skill folder](skills/ch2025) as described below |
 | Python workflow | Optional [discovery/data helper](skills/ch2025/scripts/ch2025.py), without API keys or third-party packages |
@@ -35,21 +35,20 @@ git clone https://github.com/ofuhrer/ch2025-skills.git
 cd ch2025-skills
 ```
 
-For a **Codex project**, copy the skill into that project's `.agents/skills/` directory:
+Install with Python 3.10+ into **one** host's skills directory (existing installations are preserved):
 
 ```sh
-mkdir -p /path/to/your/project/.agents/skills
-cp -R skills/ch2025 /path/to/your/project/.agents/skills/
+# Personal Codex installation; works across projects.
+python3 scripts/install_skill.py ~/.agents/skills
+
+# Or install for a particular Codex project.
+python3 scripts/install_skill.py /path/to/your/project/.agents/skills
+
+# Or install for Claude Code.
+python3 scripts/install_skill.py ~/.claude/skills
 ```
 
-For **Claude Code**, use the project's `.claude/skills/` directory:
-
-```sh
-mkdir -p /path/to/your/project/.claude/skills
-cp -R skills/ch2025 /path/to/your/project/.claude/skills/
-```
-
-Replace `/path/to/your/project` with your project path. For personal installation or other agents, see [installation](docs/installation.md). Copy the whole skill folder, including references and the optional script. Update an existing same-named skill deliberately rather than nesting duplicate folders.
+The installer copies the complete skill and licence, refuses to merge/overwrite an existing `ch2025` folder, and requires no account or network. Without Python, extract [the ZIP](releases/ch2025.zip) into the host's skills directory. See [installation, updates and removal](docs/installation.md).
 
 In Codex, invoke `$ch2025`; in Claude Code, use `/ch2025`. Hosts may also select it for a matching question. Native behaviour still needs to be checked in each product. [OpenAI documentation](https://learn.chatgpt.com/docs/build-skills), [Claude Code documentation](https://code.claude.com/docs/en/skills).
 
@@ -80,25 +79,25 @@ python3 skills/ch2025/scripts/ch2025.py station \
   --station ber --parameter tas --gwl gwl3.0 --download ./ch2025-data
 ```
 
-Atlas discovery returns live controls, product-information links, selected state and available file/share URLs; it rejects silently changed or dropped selections. Grid discovery is metadata-only. Station downloads preserve originals/provenance, refuse overwrites, and default to a 25 MB file limit. The helper does not fetch a national archive or compute scientific statistics. [Data guidance](skills/ch2025/references/data.md) covers formats, units, calendars and alternatives. Daily GWL files use synthetic years 1–30; model reference series are not observed daily weather. [Official data documentation](https://opendatadocs.meteoswiss.ch/c-climate-data/c8-c9-climate-scenarios).
+Atlas discovery returns live controls, product-information links, selected state and available file/share URLs; it rejects silently changed or dropped selections. Grid discovery is metadata-only. Station downloads check complete synthetic-date sequences and numeric values, count missing cells, preserve originals/provenance, refuse overwrites, and default to a 25 MB file limit. The helper does not fetch a national archive or compute scientific statistics. [Data guidance](skills/ch2025/references/data.md) covers formats, units, calendars and alternatives. Daily GWL files use synthetic years 1–30; model reference series are not observed daily weather. [Official data documentation](https://opendatadocs.meteoswiss.ch/c-climate-data/c8-c9-climate-scenarios).
 
 ## Sources and credit
 
 Use the report's prescribed scientific citation: **MeteoSwiss & ETH Zurich (2025): Climate CH2025 – Scientific Report. Federal Office of Meteorology and Climatology MeteoSwiss, Zurich.** [DOI](https://doi.org/10.18751/climate/scenarios/ch2025/sr/1.0/). Its imprint credits the authors, editors, supporting teams and institutions. For daily data, cite **MeteoSwiss & ETH Zurich (2025): Climate CH2025 – Daily Datasets**, [dataset DOI](https://doi.org/10.18751/climate/scenarios/ch2025/data/1.0/).
 
-The skill links public evidence beside claims. Calculated results must identify inputs and methods. The package contains curated instructions and public links; it does not contain internal Confluence material, credentials or the local research archive. Evidence was reviewed on **2 November 2026**; current values, services and versions require current verification.
+The skill requires inspected public evidence for precise claims. These are model instructions, not a citation validator or a guarantee against hallucinations. The helper enforces selection, file-integrity and provenance checks; it cannot verify that prose faithfully represents a source. Calculated results must identify inputs and methods. The package contains curated instructions and public links; it does not contain internal Confluence material, credentials or the local research archive. Evidence was reviewed on **2 November 2026**; current values, services and versions require current verification.
 
 No ECMWF service, account, skill or MCP server is required by this package.
 
 ## Development and validation
 
 ```sh
-python3 -m unittest discover -s tests -v
 python3 scripts/build_release.py
+python3 -m unittest discover -s tests -v
 python3 scripts/check_repository.py
 ```
 
-See [validation](docs/validation.md) and [evaluation scenarios](evaluation/scenarios.json). Recorded checks describe what was tested; they do not establish native execution in every model/product or perfect scientific answers.
+See the [package review](docs/package-review.md), [validation](docs/validation.md) and [evaluation scenarios](evaluation/scenarios.json). Recorded checks describe what was tested; they do not establish native execution in every model/product or perfect scientific answers.
 
 ## Licence and contributions
 

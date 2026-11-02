@@ -5,16 +5,30 @@ The repository separates executable checks from behavioural evaluation. A passin
 ## Repeatable local checks
 
 ```sh
-python3 -m unittest discover -s tests -v
 python3 scripts/build_release.py
+python3 -m unittest discover -s tests -v
 python3 scripts/check_repository.py
 ```
 
 The helper tests use small synthetic transport/format fixtures, not fake scientific findings. They verify actual returned-asset selection, missing assets, source-preserving downloads, synthetic dates, overwrite refusal, size limits, invalid content and partial-file cleanup. Repository checks validate standard frontmatter, local documentation links, source-registry consistency and exact agreement of generated chat/ZIP artifacts with the canonical files.
 
-The ZIP packages only the skill folder and its licence. The self-contained chat version is generated from the same core/reference text. The local source-gathering archive is excluded from both the package and version control.
+The ZIP packages only the skill folder and its licence. The compact chat version is generated from the same core, with optional references linked instead of embedded. The local source-gathering archive is excluded from both the package and version control.
 
-An optional [GitHub Actions example](github-actions.example.yml) runs the checks on Python 3.10 and 3.13. To enable it, add it as `.github/workflows/checks.yml` using an account/token authorised to manage workflows. It is supplied as an example and is not active CI in this initial repository. The publishing sign-in lacked the GitHub `workflow` scope; account permissions were not changed.
+An optional [GitHub Actions example](github-actions.example.yml) runs the checks on Python 3.10 and 3.13. To enable it, add it as `.github/workflows/checks.yml` using an account/token authorised to manage workflows. It remains an example, not active CI: the publishing credential was rechecked on 2 November 2026 and lacks the GitHub `workflow` scope. Account permissions were not changed.
+
+## Live contracts
+
+```sh
+python3 scripts/check_live.py --download --output evaluation/runs/live.json
+```
+
+This compares the registry against the live atlas catalogue and exercises all atlas families, explicit pathway/language selections, dropped-selection rejection, station lookup, grid discovery and one bounded CSV download. Omit `--download` for metadata only. Outputs are saved only when requested; the station check uses a temporary directory. Failures remain failures and return a nonzero exit code; upstream changes require inspection, not weakening assertions to recover a green result. This is an opt-in network check, separate from offline CI.
+
+## What is enforced
+
+The helper mechanically rejects unavailable/changed selections, missing atlas realizations, incomplete or malformed daily CSVs, wrong station/GWL metadata, invalid ZIP payload signatures, oversize files and overwrites. It preserves original bytes and source/hash/inspection sidecars, rolling back its new files on write failure. These are transport/format checks, not scientific validation of every value or NetCDF variable.
+
+Citation relevance, faithful interpretation and abstention from unsupported claims are instructions to the model. They cannot be guaranteed by a Markdown skill or tests of the helper. No regex for the presence of a URL establishes that a claim is true. Assess actual answers against inspected evidence using the scenarios below; keep unexecuted scenarios distinct from passes.
 
 ## Behavioural checks
 

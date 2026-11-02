@@ -6,6 +6,7 @@ import datetime as dt
 import hashlib
 import io
 import json
+import math
 from pathlib import Path
 import re
 import sys
@@ -37,6 +38,8 @@ def atlas_product(product, language="en", selections=None, product_type=None):
         raise ValueError("Specify language using --language")
     requested["language"] = language
     if product_type:
+        if "productType" in requested and requested["productType"] != product_type:
+            raise ValueError("Conflicting productType and --product-type selections")
         requested["productType"] = product_type
     query = {"lang": language, "isPlayerActive": "false"}
     query.update({"cg1." + key: value for key, value in requested.items()})
@@ -60,6 +63,8 @@ def atlas_product(product, language="en", selections=None, product_type=None):
             realizations.extend(value.get("realizations", []))
         elif component.get("type") == "info" and value.get("url"):
             information.append(value["url"])
+    if not realizations or any(urlparse(r.get("url", "")).scheme != "https" for r in realizations):
+        raise ValueError("Atlas returned no usable HTTPS realization; use the official application")
     return dict(status="discovered", product=product, title=entry["title"],
                 official_url=entry["url"], configuration_url=configuration_url,
                 requested=requested, selected=selected, options=options,
@@ -107,7 +112,7 @@ def grid_assets(parameter, gwl, model=None):
 def request(url):
     if urlparse(url).scheme != "https":
         raise ValueError("Expected an HTTPS public source URL")
-    return urlopen(Request(url, headers={"User-Agent": "CH2025-skills/0.2"}), timeout=45)
+    return urlopen(Request(url, headers={"User-Agent": "CH2025-skills/0.3"}), timeout=45)
 
 
 def fetch_json(url):
@@ -145,16 +150,35 @@ def inspect_csv(path):
         for line in stream:
             if line.startswith("DATE;"):
                 models = next(csv.reader([line], delimiter=";"))[1:]
+                if not models or not all(models) or len(set(models)) != len(models):
+                    raise ValueError("Missing or duplicate model columns")
+                if metadata.get("CALENDAR") != "365_day":
+                    raise ValueError("Expected the documented 365_day calendar")
                 rows = 0
+                missing = dict.fromkeys(models, 0)
                 first = last = None
+                expected = dt.date(1, 1, 1)
                 for row in csv.reader(stream, delimiter=";"):
                     if len(row) != len(models) + 1:
                         raise ValueError("Ragged daily CSV row")
+                    if row[0] != expected.isoformat():
+                        raise ValueError("Unexpected daily date; expected consecutive synthetic 365-day years")
+                    expected += dt.timedelta(days=1)
+                    if expected.month == 2 and expected.day == 29:
+                        expected += dt.timedelta(days=1)
+                    for model, value in zip(models, row[1:]):
+                        if value == "NA":
+                            missing[model] += 1
+                        elif not math.isfinite(float(value)):
+                            raise ValueError("Non-finite daily value; expected a number or NA")
                     first = first or row[0]
                     last = row[0]
                     rows += 1
+                if rows != 10950:
+                    raise ValueError(f"Incomplete daily CSV: expected 10950 rows, received {rows}")
                 return dict(metadata=metadata, models=models, model_count=len(models),
-                            rows=rows, first_date=first, last_date=last)
+                            rows=rows, first_date=first, last_date=last,
+                            missing_by_model=missing, missing_cells=sum(missing.values()))
             if ";" in line:
                 key, value = line.rstrip("\r\n").split(";", 1)
                 metadata[key] = value
@@ -170,9 +194,12 @@ def download(asset, directory, max_bytes):
     if any(p.exists() for p in (target, sidecar, partial)):
         raise ValueError(f"Refusing to overwrite an existing output for {target.name}")
     made_partial = False
+    made_target = made_sidecar = False
+    completed = False
     try:
         with request(asset["url"]) as response:
-            if int(response.headers.get("Content-Length", 0)) > max_bytes:
+            declared = int(response.headers.get("Content-Length", 0))
+            if declared > max_bytes:
                 raise ValueError("Download exceeds --max-mb; choose a smaller product or raise the limit")
             digest, size = hashlib.sha256(), 0
             with partial.open("xb") as stream:
@@ -183,28 +210,52 @@ def download(asset, directory, max_bytes):
                         raise ValueError("Download exceeds --max-mb")
                     digest.update(chunk)
                     stream.write(chunk)
+        if declared and size != declared:
+            raise ValueError("Incomplete download: Content-Length mismatch")
         if asset["format"] == "csv":
             inspection = inspect_csv(partial)
+            for selection, field in (("station", "STATION_ABBR"), ("gwl", "GWL")):
+                if selection in asset and inspection["metadata"].get(field, "").lower() != asset[selection].lower():
+                    raise ValueError(f"CSV metadata does not match requested {selection}")
         else:
             with zipfile.ZipFile(partial) as archive:
+                members = archive.infolist()
+                if not members or any(m.is_dir() or not m.filename.endswith(".nc") for m in members):
+                    raise ValueError("Expected a ZIP containing NetCDF model files")
+                if sum(m.file_size for m in members) > max_bytes * 20:
+                    raise ValueError("Uncompressed ZIP exceeds 20 times the download limit")
                 if archive.testzip() is not None:
                     raise ValueError("ZIP integrity check failed")
+                for member in members:
+                    with archive.open(member) as stream:
+                        magic = stream.read(8)
+                    if not (magic.startswith((b"CDF\x01", b"CDF\x02", b"CDF\x05")) or magic == b"\x89HDF\r\n\x1a\n"):
+                        raise ValueError("ZIP member lacks a NetCDF/HDF5 signature")
                 inspection = {"members": archive.namelist(), "member_count": len(archive.namelist())}
         record = dict(asset, status="downloaded", path=str(target.resolve()), bytes=size,
                       sha256=digest.hexdigest(), inspection=inspection,
                       retrieved_at_utc=dt.datetime.now(dt.timezone.utc).isoformat())
         # Reserve the final path without replacing a file created after the initial check.
-        with target.open("xb") as output, partial.open("rb") as source:
-            while chunk := source.read(262144):
-                output.write(chunk)
+        with target.open("xb") as output:
+            made_target = True
+            with partial.open("rb") as source:
+                while chunk := source.read(262144):
+                    output.write(chunk)
         with sidecar.open("x", encoding="utf-8") as stream:
+            made_sidecar = True
             json.dump(record, stream, indent=2, ensure_ascii=False)
             stream.write("\n")
         record["provenance_path"] = str(sidecar.resolve())
+        completed = True
         return record
     finally:
         if made_partial:
             partial.unlink(missing_ok=True)
+        if not completed:
+            if made_target:
+                target.unlink(missing_ok=True)
+            if made_sidecar:
+                sidecar.unlink(missing_ok=True)
 
 
 def main():

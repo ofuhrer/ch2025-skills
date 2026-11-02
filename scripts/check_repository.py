@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """Check the distributable repository without network access or extra packages."""
 import json
-from pathlib import Path
 import re
 
 from build_release import ROOT, SKILL, build, package_files
@@ -17,12 +16,17 @@ def main():
     assert len(name) <= 64 and 0 < len(description) <= 1024
     assert "license: 0BSD" in front
     assert len(text.splitlines()) < 500
+    assert len(text.split()) <= 750, "Keep the core concise; move task-specific detail to references"
+    assert len((ROOT / "chat/CH2025_CHAT.md").read_text().split()) <= 1000
+    keys = set(re.findall(r"^([a-z-]+):", front, re.M))
+    assert keys <= {"name", "description", "license", "compatibility", "metadata", "allowed-tools"}
     sources = json.loads((SKILL / "references/sources.json").read_text())
     assert len({s["id"] for s in sources}) == len(sources)
     assert all(s["url"].startswith("https://") for s in sources)
     registry = json.loads((SKILL / "references/products.json").read_text())
     assert len(registry) == len({p["key"] for p in registry}) == 8
     assert len({p["display_id"] for p in registry}) == 8
+    assert {p["url"] for p in registry} <= {s["url"] for s in sources}
     build(check=True)
     documents = [ROOT / "README.md", *list((ROOT / "docs").glob("*.md")),
                  *list((ROOT / "examples").glob("*.md")), ROOT / "chat/CH2025_CHAT.md",

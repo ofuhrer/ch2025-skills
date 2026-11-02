@@ -1,6 +1,4 @@
 """Check that product discovery preserves selections and distinct data types."""
-import json
-from pathlib import Path
 import unittest
 from unittest.mock import patch
 
@@ -43,6 +41,19 @@ class DiscoveryTests(unittest.TestCase):
         with patch.object(helper, "fetch_json", return_value=display({"language": "en", "productType": "plot"})):
             with self.assertRaisesRegex(ValueError, "productType"):
                 helper.atlas_product("ensemble", product_type="data")
+
+    def test_conflicting_product_type_is_not_silently_overwritten(self):
+        with patch.object(helper, "fetch_json") as fetch:
+            with self.assertRaisesRegex(ValueError, "Conflicting"):
+                helper.atlas_product("maps", selections={"productType": "plot"}, product_type="data")
+            fetch.assert_not_called()
+
+    def test_display_without_realization_is_not_a_discovered_product(self):
+        response = display({"language": "en"})
+        response["components"] = []
+        with patch.object(helper, "fetch_json", return_value=response):
+            with self.assertRaisesRegex(ValueError, "no usable"):
+                helper.atlas_product("maps")
 
     def test_station_name_lookup_uses_bom_and_official_columns(self):
         raw = '\ufeffstation_abbr;station_name;station_canton\nBER;Bern / Zollikofen;BE\nLUG;Lugano;TI\n'.encode()

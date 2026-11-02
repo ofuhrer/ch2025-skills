@@ -43,3 +43,18 @@ Reviewed 2 November 2026. Skill name, folder, invocation examples, UI metadata, 
 - The same trial correctly explained the modeled 5–95 range versus CH2025's roughly two-thirds actual-outcome interpretation, recovering the official explainer's template text rather than claiming that navigation-only extraction supplied evidence.
 
 The extended rubric has 13 scenarios; not all were executed as model trials. Native Claude/ChatGPT installation, audiovisual transcripts and full national daily-grid processing remain outside the completed checks.
+
+
+## v0.3.0 package review
+
+Date: **2 November 2026**. This section records fresh executable checks; earlier independent-agent trials above were not rerun and do not establish the revised skill's model-level behaviour.
+
+- **25 offline tests passed.** Added incomplete/header-only CSV, consecutive synthetic dates, finite values, duplicate models, calendar, requested station/GWL, Content-Length, provenance rollback/concurrent-file preservation, ZIP contents, conflicting atlas selections and missing realizations. Packaging tests install into paths with spaces, refuse an existing/dangling-symlink target, and execute the helper from an extracted ZIP outside the checkout.
+- **15 live checks passed** using `python3 scripts/check_live.py --download --output evaluation/runs/review-v03/live.json`: live catalogue coverage, eight atlas families, station names, grid discovery, Bern CSV, pathway selections, French station output and dropped-selection rejection. Detailed local evidence is intentionally excluded from distribution.
+- **Bern CSV:** 1,285,756 bytes, 24 models, 10,950 consecutive synthetic days, 750 missing cells; `degrees_C`, `365_day`, dataset version 1.0.0. SHA-256 `893c01360bfccdb50f930781619b753f2ff229d8242b3009e811a3c578d4e7d3`. Retrieval at 15:47 UTC. This matches the historical sample but was fetched and validated again. [Public station item](https://data.geo.admin.ch/api/stac/v1/collections/ch.meteoschweiz.ogd-climate-scenarios-ch2025/items/ber).
+- **Separate real ZIP probe passed:** Bern `tas/GWL3.0`, 2,461,805 bytes, 24 NetCDF members; SHA-256 `088afd8c168c842d150a5cb1a9e86aa768322bc1d2ca9cb5d6e35278cb598586`. Checked CRC and NetCDF/HDF5 signatures, not decoded variable semantics. Temporary files removed.
+- **Skill-creator quick validation and Ruff passed** for changed Python modules/tests. Repository checks cover portable metadata fields, local links, atlas/source registry agreement, size budgets and exact regenerated ZIP/chat contents.
+- **Size:** SKILL.md 1,170 → 597 words; chat instructions 5,662 → 642 words. Whitespace counts include Markdown and are not exact token counts.
+- **Source review:** current official product, dataset and Open Data pages inspected; ECMWF and EUMETSAT comparisons pinned in [the package review](../docs/package-review.md). No new source family was missing from v0.2.0.
+- **Not established:** native ChatGPT/Claude import, automatic skill selection in every host, independent v0.3.0 model adherence, comprehensive scientific correctness, every atlas selection or full-grid processing. Added four citation/unsupported-evidence scenarios for future model trials; these are not recorded as passed.
+- **CI:** workflow example retained. The configured GitHub credential still lacks `workflow` scope; local tests are the execution evidence.

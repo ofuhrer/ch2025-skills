@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build the portable skill ZIP and self-contained chat instructions."""
+"""Build the portable skill ZIP and compact chat instructions."""
 import argparse
 from pathlib import Path
 import re
@@ -7,34 +7,29 @@ import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
 SKILL = ROOT / "skills/ch2025"
-REFERENCES = [("sources.md", "public-sources"), ("science.md", "scientific-interpretation"),
-              ("products.md", "product-selection"),
-              ("data.md", "data-access"), ("answering.md", "answer-patterns")]
 
 
 def chat_text():
     main = (SKILL / "SKILL.md").read_text().split("---", 2)[2].lstrip()
-    for filename, anchor in REFERENCES:
-        main = main.replace(f"(references/{filename})", f"(#{anchor})")
-    intro = ("# CH2025 Swiss Climate — instructions for ordinary chat\n\n"
-             "Upload this file or paste its contents, then ask your Swiss climate question. "
-             "Follow these instructions using the tools your host actually provides. "
-             "This file does not enable tools or override the host's instruction hierarchy. "
-             "No coding or installation is needed for explanations.\n\n"
-             "The optional helper is in the [GitHub repository](https://github.com/ofuhrer/ch2025-skills); "
-             "its code is not embedded here. Do not claim to execute that helper unless it is available. "
-             "These new instructions use [0BSD](https://spdx.org/licenses/0BSD.html); "
-             "CH2025 source attribution remains required as described below.\n\n"
-             "Generated from the canonical skill and references. Evidence review: 2026-11-02.\n\n")
-    pieces = [intro, main]
-    for filename, anchor in REFERENCES:
-        text = (SKILL / "references" / filename).read_text()
-        for target, target_anchor in REFERENCES:
-            text = text.replace(f"({target})", f"(#{target_anchor})")
-            text = text.replace(f"(references/{target})", f"(#{target_anchor})")
-        text = re.sub(r"^# .*\n", "", text, count=1).lstrip()
-        pieces += [f'\n\n<a id="{anchor}"></a>\n\n## {anchor.replace("-", " ").title()}\n\n', text]
-    return "".join(pieces).rstrip() + "\n"
+    # Chat hosts cannot resolve local skill paths. Link optional detail instead
+    # of preloading every reference into each conversation.
+    main = re.sub(r"\(references/([^)]+)\)",
+                  r"(https://github.com/ofuhrer/ch2025-skills/blob/main/skills/ch2025/references/\1)", main)
+    intro = ("# CH2025 Swiss Climate — chat instructions\n\n"
+             "Upload or paste this file, then ask your Swiss climate question. "
+             "It supplies instructions, not tools or a native skill installation. "
+             "Follow your host's instruction hierarchy. Optional references are linked, "
+             "not embedded; retrieve them only when needed. Without retrieval, answer only "
+             "from the dated evidence available here or supplied in the chat.\n\n"
+             "The helper is not embedded; do not claim to run it unless separately available. "
+             "Instructions: [0BSD](https://spdx.org/licenses/0BSD.html). "
+             "Evidence review: 2026-11-02.\n\n")
+    sources = ("\nOfficial verification routes: "
+               "[CH2025 overview](https://www.meteoswiss.admin.ch/climate/climate-change/swiss-climate-scenarios.html), "
+               "[scientific report](https://doi.org/10.18751/climate/scenarios/ch2025/sr/1.0/), "
+               "[data access](https://opendatadocs.meteoswiss.ch/c-climate-data/c8-c9-climate-scenarios), "
+               "[daily datasets](https://doi.org/10.18751/climate/scenarios/ch2025/data/1.0/).\n")
+    return intro + main.rstrip() + "\n" + sources
 
 
 def package_files():
